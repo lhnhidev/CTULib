@@ -2,6 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Netflix Sans";
+  src:
+    local("NetflixSans-Regular"),
+    url("/fonts/NetflixSans-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Netflix Sans";
+  font-weight: bold;
+  src:
+    local("NetflixSans-Bold"),
+    url("/fonts/NetflixSans-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Netflix Sans";
+  font-weight: 600;
+  src:
+    local("NetflixSans-Medium"),
+    url("/fonts/NetflixSans-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Netflix Sans";
+  font-weight: 300;
+  src:
+    local("NetflixSans-Light"),
+    url("/fonts/NetflixSans-Light.woff2") format("woff2");
+}
+
+:root {
+  --primary-color: #FDAB02;
+  --bg-black-color: #222222;
+}
+
 *,
 *::before,
 *::after {
@@ -19,6 +55,7 @@ body {
     background-color 0.5s;
   line-height: 1.6;
   font-family:
+    "Netflix Sans",
     Inter,
     -apple-system,
     BlinkMacSystemFont,
@@ -31,4 +68,18 @@ body {
     "Droid Sans",
     "Helvetica Neue",
     sans-serif;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+}
+
+.bar::after {
+  content: "";
+  display: inline-block;
+  border-left: 1px solid gray;
+  height: 16px;
+  margin-left: 12px;
+  position: relative;
 }
