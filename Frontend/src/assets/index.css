@@ -34,7 +34,10 @@
 }
 
 :root {
-  --primary-color: #FDAB02;
+  /* --primary-color: #fdab02; */
+  /* --second-color: #000; */
+  --primary-color: #1f5ca9;
+  --second-color: #00afef;
   --bg-black-color: #222222;
 }
 
