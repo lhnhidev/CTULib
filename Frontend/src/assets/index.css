@@ -37,7 +37,7 @@
   /* --primary-color: #fdab02; */
   /* --second-color: #000; */
   --primary-color: #1f5ca9;
-  --second-color: #00afef;
+  --secondary-color: #00afef;
   --bg-black-color: #222222;
 }
 
@@ -85,4 +85,10 @@ body {
   height: 16px;
   margin-left: 12px;
   position: relative;
+}
+
+@layer components {
+  .primary-button {
+    @apply rounded border bg-[var(--primary-color)] px-5 py-3 text-lg text-white transition hover:bg-[var(--secondary-color)];
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-[-44px] w-full shadow-sm">
+  <header class="sticky top-[-44px] z-50 w-full shadow-sm">
     <div
       class="flex justify-between bg-[var(--bg-black-color)] px-4 py-3 text-sm text-gray-300"
     >

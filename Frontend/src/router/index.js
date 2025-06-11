@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("../components/HeaderComponent.vue"),
+      component: () => import("../views/client/HomePage.vue"),
     },
     // {
     //   path: '/about',
