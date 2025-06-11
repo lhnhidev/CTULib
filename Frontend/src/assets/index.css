@@ -71,6 +71,7 @@ body {
     "Droid Sans",
     "Helvetica Neue",
     sans-serif;
+  overflow-x: hidden;
 }
 
 .bar {
