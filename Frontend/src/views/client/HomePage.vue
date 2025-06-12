@@ -23,6 +23,8 @@
       textColor="#000"
     />
   </div>
+
+  <FooterComponent />
 </template>
 
 <script setup>
@@ -30,4 +32,5 @@ import SliderComponent from "@components/SliderComponent.vue"
 import HeaderComponent from "@components/HeaderComponent.vue"
 import ServiceComponent from "@components/ServiceComponent.vue"
 import SubBanner from "@components/SubBanner.vue"
+import FooterComponent from "@components/FooterComponent.vue"
 </script>
