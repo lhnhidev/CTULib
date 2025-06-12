@@ -1,15 +1,29 @@
 <template>
   <div>
-    <img :src="image[0]" alt="" />
+    <div class="relative aspect-[814/1000]">
+      <img
+        class="absolute z-10 cursor-pointer transition-all duration-700 ease-in-out"
+        :src="image[0]"
+        :alt="title"
+        @mouseover="(e) => e.target.classList.add('opacity-0')"
+        @mouseleave="(e) => e.target.classList.remove('opacity-0')"
+      />
 
-    <div class="space-y-2 py-3">
+      <img class="absolute" :src="image[1]" :alt="title" />
+    </div>
+
+    <div class="flex flex-col space-y-2 py-3">
       <!-- Brand -->
-      <p class="text-center text-sm text-gray-500">{{ brand }}</p>
+      <a href="#" class="inline-block text-center text-sm text-gray-500">{{
+        brand
+      }}</a>
 
       <!-- Name -->
-      <p class="text-center">
-        {{ title }}
-      </p>
+      <a
+        href="#"
+        class="inline-block text-center transition-all hover:text-[var(--primary-color)]"
+        >{{ title }}</a
+      >
 
       <!-- Vote -->
       <div class="text-center text-xs">
@@ -23,12 +37,13 @@
       </div>
 
       <!-- Price -->
-      <p class="text-center">$55.00</p>
+      <p class="text-center">{{ formatCurrency(price) }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
+import { formatCurrency } from "@/utils"
 import { faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
