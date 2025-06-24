@@ -26,7 +26,7 @@
 
   <SliderBooks
     title="Sản phẩm mới"
-    :data="newBooks"
+    :data="books.filter((book) => book.isNew)"
     :amountDisplay="5"
     :gap="40"
   >
@@ -42,7 +42,7 @@
   </SliderBooks>
   <SliderBooks
     title="Sản phẩm nổi bật"
-    :data="featureBooks"
+    :data="books.filter((book) => book.isFeture)"
     :amountDisplay="5"
     :gap="40"
   >
@@ -85,7 +85,7 @@
 
   <SliderBooks
     title="Sản phẩm yêu thích"
-    :data="favoriteBooks"
+    :data="books.filter((book) => book.isFavorite)"
     :amountDisplay="5"
     :gap="40"
   >
@@ -122,9 +122,9 @@
   </SliderBooks>
 
   <div class="my-20 flex justify-between px-20">
-    <div v-for="item in provider" :key="item.name">
-      <a href="#" :title="item.name">
-        <img :src="item.image" :alt="item.name" />
+    <div v-for="publisher in publishers" :key="publisher.name">
+      <a href="#" :title="publisher.name">
+        <img :src="publisher.image" :alt="publisher.name" />
       </a>
     </div>
   </div>
@@ -163,225 +163,21 @@ import BannerComponent from "@components/BannerComponent.vue"
 import VoteCustomerCard from "@components/VoteCustomerCard.vue"
 import CardBook from "@components/CardBook.vue"
 import NewsComponent from "@components/NewsComponent.vue"
+import { onMounted, ref } from "vue"
 
-const newBooks = [
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 3,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 2",
-    vote: 5,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 3",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 4",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 5",
-    vote: 2,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 6",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 7",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 8",
-    vote: 5,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary",
-    vote: 1,
-    price: 55,
-  },
-  {
-    image: ["/1.jpg", "/2.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary",
-    vote: 3,
-    price: 55,
-  },
-]
+const books = ref([])
+const publishers = ref([])
 
-const featureBooks = [
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 3,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 2",
-    vote: 5,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 3",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 4",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 5",
-    vote: 2,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 6",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 7",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 8",
-    vote: 5,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary",
-    vote: 1,
-    price: 55,
-  },
-  {
-    image: ["/3.jpg", "/4.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary",
-    vote: 3,
-    price: 55,
-  },
-]
-
-const favoriteBooks = [
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 5,
-    price: 80,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 2,
-    price: 55,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 3,
-    price: 52,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 5,
-    price: 55,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 3,
-    price: 155,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 2,
-    price: 355,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 3,
-    price: 85,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 4,
-    price: 55,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 3,
-    price: 25,
-  },
-  {
-    image: ["/5.jpg", "/6.jpg"],
-    brand: "EcomZone",
-    name: "The Study Quran: A New Translation and Commentary 1",
-    vote: 4,
-    price: 35,
-  },
-]
+onMounted(async () => {
+  try {
+    const resBooks = await fetch("http://localhost:3000/books")
+    const resPublishers = await fetch("http://localhost:3000/publishers")
+    books.value = await resBooks.json()
+    publishers.value = await resPublishers.json()
+  } catch (err) {
+    console.error(`Có lỗi khi get api ở HomePage: ${err}`)
+  }
+})
 
 const voteCustomer = [
   {
@@ -443,37 +239,6 @@ const voteCustomer = [
     comment: "It was a great experience!",
     desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
     author: "Patrick Goodman 10",
-  },
-]
-
-const provider = [
-  {
-    name: "Carity",
-    image: "/provider-1.jpg",
-  },
-  {
-    name: "Carity",
-    image: "/provider-2.jpg",
-  },
-  {
-    name: "Carity",
-    image: "/provider-3.jpg",
-  },
-  {
-    name: "Carity",
-    image: "/provider-4.jpg",
-  },
-  {
-    name: "Carity",
-    image: "/provider-1.jpg",
-  },
-  {
-    name: "Carity",
-    image: "/provider-1.jpg",
-  },
-  {
-    name: "Carity",
-    image: "/provider-1.jpg",
   },
 ]
 
