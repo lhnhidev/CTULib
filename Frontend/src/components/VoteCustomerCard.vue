@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-2 bg-white px-8 py-7 text-center">
+  <div class="min-h-60 space-y-2 bg-white px-8 py-7 text-center">
     <div class="text-yellow-400">
       <span v-for="i in vote" :key="i">
         <FontAwesomeIcon :icon="faStar" />

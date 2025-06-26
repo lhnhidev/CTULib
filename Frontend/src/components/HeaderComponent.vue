@@ -19,18 +19,25 @@
 
     <div class="flex justify-between bg-white px-4">
       <a href="#" class="flex w-72 items-center">
-        <img src="/logomobile.png" alt="CTULib_logo" />
+        <img
+          :src="`${imgApi}v1750824523/logomobile_dtgqs2.png`"
+          alt="CTULib_logo"
+        />
       </a>
 
       <nav class="flex items-center">
         <div>
-          <a href="#" class="block px-5 py-4 hover:text-[var(--primary-color)]"
-            >Trang chủ</a
+          <router-link
+            to="/"
+            class="block px-5 py-4 hover:text-[var(--primary-color)]"
+            >Trang chủ</router-link
           >
         </div>
         <div>
-          <a href="#" class="block px-5 py-4 hover:text-[var(--primary-color)]"
-            >Sách</a
+          <router-link
+            to="/books"
+            class="block px-5 py-4 hover:text-[var(--primary-color)]"
+            >Sách</router-link
           >
         </div>
         <div>
@@ -94,5 +101,7 @@ import {
   faUser,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons"
+
+const imgApi = import.meta.env.VITE_IMAGE
 // import {} from "@fortawesome/free-regular-svg-icons"
 </script>

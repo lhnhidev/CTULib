@@ -1,32 +1,11 @@
 <template>
-  <HeaderComponent />
-  <SliderComponent />
-  <ServiceComponent />
+  <SliderBanner />
 
-  <div class="flex justify-between gap-8 px-20">
-    <SubBanner
-      title="Luận văn tốt nghiệp"
-      desc="Tìm ý tưởng luận văn"
-      img="/sub-banner-1.jpg"
-      textColor="#fff"
-    />
-    <SubBanner
-      title="Giáo trình môn học"
-      desc="Giảm giá 30% hôm nay"
-      img="/sub-banner-2.jpg"
-      textColor="#000"
-    />
-    <SubBanner
-      title="Sách tham khảo nước ngoài"
-      desc="Tài liệu học thuật quốc tế"
-      img="/sub-banner-3.jpg"
-      textColor="#000"
-    />
-  </div>
+  <SubBanner></SubBanner>
 
-  <SliderBooks
+  <Slider
     title="Sản phẩm mới"
-    :data="books.filter((book) => book.isNew)"
+    :data="books?.filter((book) => book.idFeatures?.includes('tuychon01'))"
     :amountDisplay="5"
     :gap="40"
   >
@@ -39,10 +18,13 @@
         :price="price"
       />
     </template>
-  </SliderBooks>
-  <SliderBooks
+  </Slider>
+
+  <TopBlogs></TopBlogs>
+
+  <Slider
     title="Sản phẩm nổi bật"
-    :data="books.filter((book) => book.isFeture)"
+    :data="books?.filter((book) => book.idFeatures?.includes('tuychon02'))"
     :amountDisplay="5"
     :gap="40"
   >
@@ -55,7 +37,7 @@
         :price="price"
       />
     </template>
-  </SliderBooks>
+  </Slider>
 
   <BannerComponent
     src="/banner-3.jpg"
@@ -69,23 +51,9 @@
     }"
   />
 
-  <div>
-    <TopBlogs
-      src="/top-blog-1.jpg"
-      title="Best Choice For Learners"
-      desc="Lorem Ipsum is simply dummy text of the printing and typesetting more lorem has been the industry standard the dummy text ever since the 1500s when an galley of type and scrambled it to make a type specimen book."
-    />
-    <TopBlogs
-      src="/top-blog-2.jpg"
-      title="10 Things you must know improve reading skills"
-      desc="Lorem Ipsum is simply dummy text of the printing and typesetting more lorem has been the industry standard the dummy text ever since the 1500s when an galley of type and scrambled it to make a type specimen book."
-      :reverse="true"
-    />
-  </div>
-
-  <SliderBooks
+  <Slider
     title="Sản phẩm yêu thích"
-    :data="books.filter((book) => book.isFavorite)"
+    :data="books?.filter((book) => book.idFeatures?.includes('tuychon03'))"
     :amountDisplay="5"
     :gap="40"
   >
@@ -98,11 +66,11 @@
         :price="price"
       />
     </template>
-  </SliderBooks>
+  </Slider>
 
-  <SliderBooks
+  <Slider
     title="Cảm nhận từ độc giả"
-    :data="voteCustomer"
+    :data="votes"
     :amountDisplay="3"
     :gap="48"
     :style="{
@@ -119,7 +87,7 @@
         :user="user"
       />
     </template>
-  </SliderBooks>
+  </Slider>
 
   <div class="my-20 flex justify-between px-20">
     <div v-for="publisher in publishers" :key="publisher.name">
@@ -131,12 +99,7 @@
 
   <hr class="mx-auto w-[90%]" />
 
-  <SliderBooks
-    title="Bản tin Thư viện"
-    :data="news"
-    :amountDisplay="3"
-    :gap="48"
-  >
+  <Slider title="Bản tin Thư viện" :data="blogs" :amountDisplay="3" :gap="48">
     <template #default="{ image, time, topic, title, desc }">
       <NewsComponent
         :image="image"
@@ -146,144 +109,24 @@
         :desc="desc"
       />
     </template>
-  </SliderBooks>
-
-  <FooterComponent />
+  </Slider>
 </template>
 
 <script setup>
-import SliderComponent from "@components/SliderComponent.vue"
-import HeaderComponent from "@components/HeaderComponent.vue"
-import ServiceComponent from "@components/ServiceComponent.vue"
-import SubBanner from "@components/SubBanner.vue"
-import FooterComponent from "@components/FooterComponent.vue"
-import SliderBooks from "@components/SliderBooks.vue"
-import TopBlogs from "@components/TopBlogs.vue"
+import SliderBanner from "@components/SliderBanner/SliderBanner.vue"
+import SubBanner from "@components/SubBanner/SubBanner.vue"
+import Slider from "@components/Slider/Slider.vue"
 import BannerComponent from "@components/BannerComponent.vue"
 import VoteCustomerCard from "@components/VoteCustomerCard.vue"
 import CardBook from "@components/CardBook.vue"
 import NewsComponent from "@components/NewsComponent.vue"
-import { onMounted, ref } from "vue"
+import TopBlogs from "@components/TopBlogs/TopBLogs.vue"
+import { useFetch } from "@/hooks/useFetch"
 
-const books = ref([])
-const publishers = ref([])
+const api = import.meta.env.VITE_HOST
 
-onMounted(async () => {
-  try {
-    const resBooks = await fetch("http://localhost:3000/books")
-    const resPublishers = await fetch("http://localhost:3000/publishers")
-    books.value = await resBooks.json()
-    publishers.value = await resPublishers.json()
-  } catch (err) {
-    console.error(`Có lỗi khi get api ở HomePage: ${err}`)
-  }
-})
-
-const voteCustomer = [
-  {
-    vote: 5,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 1",
-  },
-  {
-    vote: 3,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 2",
-  },
-  {
-    vote: 5,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 3",
-  },
-  {
-    vote: 4,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 4",
-  },
-  {
-    vote: 2,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 5",
-  },
-  {
-    vote: 5,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 6",
-  },
-  {
-    vote: 5,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 7",
-  },
-  {
-    vote: 1,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 8",
-  },
-  {
-    vote: 2,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 9",
-  },
-  {
-    vote: 3,
-    comment: "It was a great experience!",
-    desc: "There are many variations passages of lorem available to the majorit have suffered alteration some form slightly believable.",
-    author: "Patrick Goodman 10",
-  },
-]
-
-const news = [
-  {
-    image: "/news-1.jpg",
-    time: "15 October, 2024",
-    topic: "Social Media 1",
-    title: "How to Build a Detailed Business Plan That Stands Out",
-    desc: "Expedita consequatur aut sed eaque minus Mollitia consequatur ipsum ut eaque illum sint. Sapiente ea explicabo. Lure...",
-  },
-  {
-    image: "/news-1.jpg",
-    time: "15 October, 2024",
-    topic: "Social Media 2",
-    title: "How to Build a Detailed Business Plan That Stands Out",
-    desc: "Expedita consequatur aut sed eaque minus Mollitia consequatur ipsum ut eaque illum sint. Sapiente ea explicabo. Lure...",
-  },
-  {
-    image: "/news-1.jpg",
-    time: "15 October, 2024",
-    topic: "Social Media 3",
-    title: "How to Build a Detailed Business Plan That Stands Out",
-    desc: "Expedita consequatur aut sed eaque minus Mollitia consequatur ipsum ut eaque illum sint. Sapiente ea explicabo. Lure...",
-  },
-  {
-    image: "/news-1.jpg",
-    time: "15 October, 2024",
-    topic: "Social Media 4",
-    title: "How to Build a Detailed Business Plan That Stands Out",
-    desc: "Expedita consequatur aut sed eaque minus Mollitia consequatur ipsum ut eaque illum sint. Sapiente ea explicabo. Lure...",
-  },
-  {
-    image: "/news-1.jpg",
-    time: "15 October, 2024",
-    topic: "Social Media 5",
-    title: "How to Build a Detailed Business Plan That Stands Out",
-    desc: "Expedita consequatur aut sed eaque minus Mollitia consequatur ipsum ut eaque illum sint. Sapiente ea explicabo. Lure...",
-  },
-  {
-    image: "/news-1.jpg",
-    time: "15 October, 2024",
-    topic: "Social Media 6",
-    title: "How to Build a Detailed Business Plan That Stands Out",
-    desc: "Expedita consequatur aut sed eaque minus Mollitia consequatur ipsum ut eaque illum sint. Sapiente ea explicabo. Lure...",
-  },
-]
+const { data: books } = useFetch(`${api}books`)
+const { data: publishers } = useFetch(`${api}publishers`)
+const { data: blogs } = useFetch(`${api}blogs`)
+const { data: votes } = useFetch(`${api}votes`)
 </script>

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="relative mt-24 px-20" :style="style">
     <h2 class="mb-7 text-center text-4xl uppercase">{{ title }}</h2>
@@ -67,6 +68,10 @@ const {
 })
 
 import { ref } from "vue"
+
+setTimeout(() => {
+  console.log(data)
+}, 800)
 
 const state = ref(0)
 const width = window.innerWidth

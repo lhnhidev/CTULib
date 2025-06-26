@@ -18,5 +18,5 @@
 </template>
 
 <script setup>
-import BannerComponent from "./BannerComponent.vue"
+import BannerComponent from "@components/BannerComponent.vue"
 </script>

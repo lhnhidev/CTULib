@@ -1,9 +1,9 @@
-const books = require("../models/books.js");
+const Books = require("../models/books.js");
 
-class booksController {
+class BooksController {
   async index(req, res) {
-    res.json(await books.find({}));
+    res.json(await Books.find({}));
   }
 }
 
-module.exports = new booksController();
+module.exports = new BooksController();

@@ -2,7 +2,10 @@
   <div class="mt-16 grid grid-cols-4 gap-4 bg-[#0E346F] px-20 py-24 text-white">
     <div class="">
       <div class="mb-8">
-        <img src="/logomobile_white.png" alt="logo_CTU" />
+        <img
+          :src="`${imgApi}v1750824523/logomobile_white_hle3dv.png`"
+          alt="logo_CTU"
+        />
       </div>
       <div class="ml-5 flex flex-col items-start gap-2">
         <a
@@ -100,7 +103,11 @@
           </div>
 
           <div class="mt-4">
-            <input type="checkbox" id="agreeCheckbox" class="mr-2" />
+            <input
+              type="checkbox"
+              id="agreeCheckbox"
+              class="checkbox checkbox-xs mr-2 bg-white checked:bg-white"
+            />
             <label for="agreeCheckbox">Tôi đồng ý với các điều khoản.</label>
           </div>
         </div>
@@ -109,4 +116,6 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const imgApi = import.meta.env.VITE_IMAGE
+</script>

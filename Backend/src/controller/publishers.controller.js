@@ -1,9 +1,9 @@
 const Publishers = require("../models/publishers.js");
 
-class publishersController {
+class PublishersController {
   async index(req, res) {
     res.json(await Publishers.find({}));
   }
 }
 
-module.exports = new publishersController();
+module.exports = new PublishersController();
