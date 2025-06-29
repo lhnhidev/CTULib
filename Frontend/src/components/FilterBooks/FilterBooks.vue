@@ -20,24 +20,46 @@
               <path d="m21 21-4.3-4.3"></path>
             </g>
           </svg>
-          <input type="search" class="grow" placeholder="Tìm kiếm..." />
+          <input
+            type="search"
+            class="grow"
+            placeholder="Tìm kiếm..."
+            v-model="search"
+            @keyup.enter="
+              () => {
+                searchBook(search.trim().toLowerCase())
+                search = ''
+              }
+            "
+          />
         </label>
       </div>
 
       <div class="bg-[#f5f5f5] px-4 py-3">
         <div>
-          <h3
-            class="text-[18px] font-bold uppercase text-[var(--primary-color)]"
-          >
-            Lọc theo
-          </h3>
+          <div class="flex items-center justify-between py-1">
+            <h3
+              class="text-[18px] font-bold uppercase text-[var(--primary-color)]"
+            >
+              Lọc theo
+            </h3>
+
+            <FontAwesomeIcon
+              :icon="faFilterCircleXmark"
+              class="cursor-pointer text-2xl text-[var(--primary-color)] transition-all hover:text-red-600"
+              title="bỏ lọc"
+              @click="removeAllFilterCheck"
+            />
+          </div>
           <hr class="mb-5 mt-2" />
         </div>
         <FilterBookItem
-          :title="bookFeature.featureName"
-          :optionsFilter="bookFeature.featureValue"
           v-for="bookFeature in bookFeatures"
           :key="bookFeature._id"
+          :title="bookFeature.featureName"
+          :optionsFilter="bookFeature.featureValue"
+          :filterCheck="filterCheck"
+          @update:filterCheck="updateFilterCheck"
         ></FilterBookItem>
       </div>
     </div>
@@ -45,10 +67,36 @@
 </template>
 
 <script setup>
+const { searchBook } = defineProps({
+  searchBook: Function,
+})
+
 import { useFetch } from "@/hooks/useFetch"
 import FilterBookItem from "./FilterBookItem.vue"
+import { ref } from "vue"
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { faFilterCircleXmark } from "@fortawesome/free-solid-svg-icons"
 
 const api = import.meta.env.VITE_HOST
 
 const { data: bookFeatures } = useFetch(`${api}bookFeatures`)
+
+const search = ref("")
+
+const filterCheck = ref([])
+
+const updateFilterCheck = (event, id) => {
+  if (event === "check") {
+    filterCheck.value = [...filterCheck.value, id]
+  } else if (event === "uncheck") {
+    filterCheck.value = filterCheck.value.filter((fetureId) => fetureId != id)
+  }
+}
+
+const removeAllFilterCheck = () => {
+  filterCheck.value = []
+  document
+    .querySelectorAll("input[typeInput='filter']")
+    .forEach((el) => (el.checked = false))
+}
 </script>

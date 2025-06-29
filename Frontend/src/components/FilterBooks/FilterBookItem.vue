@@ -7,12 +7,13 @@
       <div
         class="mt-2 flex cursor-pointer items-center gap-2 transition-all hover:text-[var(--secondary-color)]"
         v-for="option in optionsFilter"
-        :key="option.id"
+        :key="option._id"
       >
         <div>
           <input
             type="checkbox"
             className="checkbox checkbox-xs"
+            typeInput="filter"
             :id="option.id"
             @input="handleFilterFeatures"
           />
@@ -34,31 +35,33 @@
 </template>
 
 <script setup>
-import { inject, ref, watch } from "vue"
+import { inject, watch } from "vue"
 
-defineProps({
+const { optionsFilter, filterCheck } = defineProps({
   title: String,
   optionsFilter: Array,
+  filterCheck: Array,
 })
 
-const filterCheck = ref([])
+const emit = defineEmits(["update:filterCheck"])
 
 const handleFilterFeatures = (e) => {
-  if (filterCheck.value.includes(e.target.id)) {
-    filterCheck.value = filterCheck.value.filter(
-      (fetureId) => fetureId != e.target.id,
-    )
+  const id = e.target.id
+  if (filterCheck.includes(id)) {
+    emit("update:filterCheck", "uncheck", id)
   } else {
-    filterCheck.value = [...filterCheck.value, e.target.id]
+    emit("update:filterCheck", "check", id)
   }
-  console.log(filterCheck.value)
 }
 
 const bindingFilter = inject("bindingFilter")
+const watchFilter = inject("watchFilter")
 
-// Theo dõi filterCheck và gọi bindingFilter mỗi khi thay đổi
-watch(filterCheck, (newVal) => {
-  bindingFilter(newVal)
-  console.log(newVal)
-})
+watch(
+  () => filterCheck,
+  (newVal) => {
+    bindingFilter(newVal)
+    watchFilter()
+  },
+)
 </script>
