@@ -9,13 +9,14 @@
     :amountDisplay="5"
     :gap="40"
   >
-    <template #default="{ image, brand, title, vote, price }">
+    <template #default="{ image, brand, title, vote, price, id }">
       <CardBook
         :image="image"
         :brand="brand"
         :title="title"
         :vote="vote"
         :price="price"
+        :id="id"
       />
     </template>
   </Slider>
@@ -28,13 +29,14 @@
     :amountDisplay="5"
     :gap="40"
   >
-    <template #default="{ image, brand, title, vote, price }">
+    <template #default="{ image, brand, title, vote, price, id }">
       <CardBook
         :image="image"
         :brand="brand"
         :title="title"
         :vote="vote"
         :price="price"
+        :id="id"
       />
     </template>
   </Slider>
@@ -57,13 +59,14 @@
     :amountDisplay="5"
     :gap="40"
   >
-    <template #default="{ image, brand, title, vote, price }">
+    <template #default="{ image, brand, title, vote, price, id }">
       <CardBook
         :image="image"
         :brand="brand"
         :title="title"
         :vote="vote"
         :price="price"
+        :id="id"
       />
     </template>
   </Slider>

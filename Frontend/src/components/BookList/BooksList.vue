@@ -26,6 +26,7 @@
             :title="book.name"
             :vote="book.vote"
             :price="book.price"
+            :id="book._id"
           ></CardBook>
         </div>
       </div>
@@ -74,9 +75,15 @@ const searchBook = (text) => {
     // books.value = booksData.value
     return
   } else {
-    books.value = books.value.filter((book) =>
-      book.name.trim().toLowerCase().includes(text),
+    console.log(books.value)
+    books.value = (
+      f.value.length != 0 && books.value.length != 0
+        ? books.value
+        : booksData.value
     )
+      // books.value.length === 0 ? booksData.value : books.value
+      .filter((book) => book.name.trim().toLowerCase().includes(text))
+    console.log(books.value)
   }
 }
 

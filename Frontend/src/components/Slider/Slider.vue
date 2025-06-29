@@ -43,6 +43,7 @@
           :user="ele.author"
           :time="ele.time"
           :topic="ele.topic"
+          :id="ele._id"
         ></slot>
       </div>
     </div>
@@ -68,10 +69,6 @@ const {
 })
 
 import { ref } from "vue"
-
-setTimeout(() => {
-  console.log(data)
-}, 800)
 
 const state = ref(0)
 const width = window.innerWidth
