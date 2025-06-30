@@ -82,6 +82,7 @@ const handleMoveRight = () => {
     state.value++
   }
 }
+
 const handleMoveLeft = () => {
   if (state.value === 0) {
     state.value = data.length - amountDisplayBooks

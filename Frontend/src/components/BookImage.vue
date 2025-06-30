@@ -1,12 +1,12 @@
 <template>
   <div class="animate__animated animate__fadeIn flex gap-5">
     <div
-      class="flex h-[550px] w-28 flex-col gap-4 overflow-y-auto pl-1 [direction:rtl]"
+      class="flex h-[550px] w-32 flex-col gap-4 overflow-y-auto pl-1 [direction:rtl]"
     >
       <img
         v-for="(img, index) in image"
         checked=""
-        :class="`w-28 cursor-pointer border-2 transition-all hover:border hover:border-[var(--primary-color)] ${imgChecked === index ? 'border-[var(--secondary-color)]' : ''}`"
+        :class="`w-32 cursor-pointer border-2 transition-all hover:border hover:border-[var(--primary-color)] ${imgChecked === index ? 'border-[var(--secondary-color)]' : ''}`"
         :src="img"
         :key="index"
         @click="() => handleChangeImage(index)"
@@ -16,7 +16,7 @@
     <div>
       <div
         ref="imgContainer"
-        class="relative h-auto w-[450px] cursor-zoom-in border"
+        class="relative h-auto w-[500px] cursor-zoom-in border"
         @mouseenter="showZoom = true"
         @mouseleave="showZoom = false"
         @mousemove="handleMouseMove"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, watch } from "vue"
 
 const { image } = defineProps({
   image: Array,
@@ -41,6 +41,13 @@ const { image } = defineProps({
 
 const currentImg = ref(image[0])
 const imgChecked = ref(0)
+
+watch(
+  () => image,
+  () => {
+    currentImg.value = image[0]
+  },
+)
 
 const handleChangeImage = (index) => {
   imgChecked.value = index

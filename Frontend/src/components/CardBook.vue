@@ -1,7 +1,7 @@
 <template>
   <div class="animate__animated animate__flipInY">
     <div class="relative aspect-[814/1000]">
-      <router-link :to="`books/${id}`">
+      <router-link :to="`/books/${id}`">
         <img
           class="absolute z-10 cursor-pointer transition-all duration-700 ease-in-out"
           :src="image[0]"
@@ -20,7 +20,7 @@
       }}</a>
 
       <!-- Name -->
-      <router-link :to="`books/${id}`">
+      <router-link :to="`/books/${id}`">
         <p
           class="inline-block text-center transition-all hover:text-[var(--primary-color)]"
         >

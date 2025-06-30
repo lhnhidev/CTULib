@@ -75,6 +75,12 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+}
+
 .bar {
   display: flex;
   align-items: center;
