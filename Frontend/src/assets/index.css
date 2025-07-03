@@ -39,7 +39,7 @@
   /* --second-color: #000; */
   --primary-color: #1f5ca9;
   --secondary-color: #00afef;
-  --bg-black-color: #222222;
+  --bg-black-color: rgb(40, 34, 34);
 }
 
 *,

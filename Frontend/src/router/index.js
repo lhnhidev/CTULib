@@ -1,4 +1,7 @@
 import RootLayout from "@/layouts/RootLayout.vue"
+import LoginForm from "@components/UserAccess/LoginForm.vue"
+import RegisterForm from "@components/UserAccess/RegisterForm.vue"
+import UserAccess from "@views/UserAccess.vue"
 import { createRouter, createWebHistory } from "vue-router"
 
 const clinetRouter = [
@@ -24,6 +27,26 @@ const clinetRouter = [
       },
     ],
   },
+  {
+    path: "/login",
+    name: "login",
+    component: UserAccess,
+    props: {
+      title: "Đăng nhập",
+      desc: "Bạn cần tài khoản CTU để đăng nhập.",
+      formType: LoginForm,
+    },
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: UserAccess,
+    props: {
+      title: "Đăng ký",
+      desc: "Trang này giúp bạn tạo tài khoản. Vui lòng cung cấp đầy đủ thông tin.",
+      formType: RegisterForm,
+    },
+  },
 ]
 
 const adminRouter = []
@@ -36,7 +59,7 @@ const router = createRouter({
   scrollBehavior() {
     return {
       top: 0,
-      // behavior: "smooth",
+      behavior: "smooth",
     }
   },
 })

@@ -43,6 +43,14 @@
 
       <button
         class="block rounded bg-[var(--primary-color)] px-10 py-1 text-white transition-all hover:bg-[var(--secondary-color)]"
+        @click="
+          isUserLoggedIn(
+            'error',
+            'bottom-right',
+            'Vui lòng đăng nhập tài khoản',
+            'Để thực hiện thêm vào giỏ hàng, bạn phải đăng nhập trước đó',
+          )
+        "
       >
         <FontAwesomeIcon :icon="faCartShopping"></FontAwesomeIcon>
         Thêm vào giỏ hàng
@@ -51,6 +59,14 @@
 
     <p
       class="mt-2 inline-block cursor-pointer pr-1 text-gray-600 transition-all hover:text-[var(--secondary-color)]"
+      @click="
+        isUserLoggedIn(
+          'error',
+          'bottom-right',
+          'Vui lòng đăng nhập tài khoản',
+          'Để thực hiện thêm vào danh sách yêu thích, bạn phải đăng nhập trước đó',
+        )
+      "
     >
       <FontAwesomeIcon :icon="faHeart" class="mr-2"></FontAwesomeIcon>
       Thêm vào danh sách yêu thích
@@ -66,7 +82,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { ref } from "vue"
-import { formatCurrency } from "@utils/index"
+import { formatCurrency, isUserLoggedIn } from "@utils/index"
 
 const { book } = defineProps({
   book: Object,

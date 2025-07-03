@@ -74,9 +74,16 @@
           </a>
         </div>
         <div class="flex items-center">
-          <a href="#" class="text-2xl hover:text-[var(--primary-color)]">
+          <div
+            class="group relative cursor-pointer text-2xl hover:text-[var(--primary-color)]"
+          >
             <FontAwesomeIcon :icon="faUser" />
-          </a>
+            <div
+              class="animate__animated animate__fadeIn absolute left-1/2 hidden -translate-x-1/2 before:block before:h-7 before:w-full before:cursor-default before:content-[''] group-hover:block"
+            >
+              <HeaderMenu></HeaderMenu>
+            </div>
+          </div>
         </div>
         <div class="flex items-center">
           <a href="#" class="text-2xl hover:text-[var(--primary-color)]">
@@ -101,6 +108,7 @@ import {
   faUser,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons"
+import HeaderMenu from "./HeaderMenu.vue"
 
 const imgApi = import.meta.env.VITE_IMAGE
 // import {} from "@fortawesome/free-regular-svg-icons"

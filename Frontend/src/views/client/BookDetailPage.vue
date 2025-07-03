@@ -12,7 +12,7 @@
       <TabInfoBook :book="book"></TabInfoBook>
 
       <Slider
-        title="Gợi của cho bạn"
+        title="Gợi ý của bạn"
         :data="relativeBook?.slice(0, 8)"
         :amountDisplay="5"
         :gap="40"
