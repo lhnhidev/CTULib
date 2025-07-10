@@ -1,11 +1,12 @@
 <template>
   <div>
     <form
-      action=""
+      action="/register"
       method="POST"
       class="mt-5 space-y-4 transition-all duration-500"
+      @submit.prevent="handleRegisterForm"
     >
-      <div class="animate__animated animate__fadeIn space-y-2" v-if="!isNext">
+      <div class="animate__animated animate__fadeIn space-y-2" v-show="!isNext">
         <div class="flex gap-4">
           <div class="flex-[2]">
             <label
@@ -15,6 +16,8 @@
             >
             <input
               type="text"
+              id="firstName"
+              ref="firstNameInput"
               v-model="firstName"
               class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
             />
@@ -28,6 +31,8 @@
             >
             <input
               type="text"
+              id="lastName"
+              ref="lastNameInput"
               v-model="lastName"
               class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
             />
@@ -43,6 +48,7 @@
           <input
             type="phone"
             v-model="phone"
+            ref="phoneInput"
             id="phone"
             class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
           />
@@ -55,7 +61,7 @@
                 >Giới tính:</label
               >
               <div class="ml-8 inline-block">
-                <el-radio-group v-model="gender">
+                <el-radio-group v-model="gender" ref="genderInput" id="gender">
                   <el-radio value="male">Nam</el-radio>
                   <el-radio value="female">Nữ</el-radio>
                 </el-radio-group>
@@ -68,7 +74,9 @@
               <div class="demo-date-picker">
                 <div class="block">
                   <el-date-picker
+                    id="birthday"
                     v-model="birthday"
+                    ref="birthdayInput"
                     type="date"
                     placeholder="Chọn ngày"
                   />
@@ -87,30 +95,36 @@
         </div>
       </div>
 
-      <div class="animate__animated animate__fadeIn space-y-4" v-if="isNext">
+      <div class="animate__animated animate__fadeIn space-y-4" v-show="isNext">
         <input
           class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
           type="text"
           v-model="email"
+          id="email"
+          ref="emailInput"
           placeholder="Nhập Email..."
         />
         <input
           class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
           type="password"
           v-model="password"
+          id="password"
+          ref="passwordInput"
           placeholder="Mật khẩu"
         />
         <input
           class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
           type="password"
           v-model="confirmPassword"
+          id="confirmPassword"
+          ref="confirmPasswordInput"
           placeholder="Xác nhận mật khẩu"
         />
       </div>
 
       <div
         class="animate__animated animate__fadeIn flex items-center justify-between"
-        v-if="isNext"
+        v-show="isNext"
       >
         <button
           type="submit"
@@ -181,7 +195,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons"
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 
 const emit = defineEmits(["update:url"])
 
@@ -195,4 +209,64 @@ const birthday = ref("")
 const email = ref("")
 const password = ref("")
 const confirmPassword = ref("")
+
+const firstNameInput = ref()
+const lastNameInput = ref()
+const phoneInput = ref()
+const genderInput = ref()
+const birthdayInput = ref()
+const emailInput = ref()
+const passwordInput = ref()
+const confirmPasswordInput = ref()
+
+const formArray = ref([])
+
+onMounted(() => {
+  console.log(birthdayInput.value.$el)
+  formArray.value = [
+    {
+      value: firstName.value,
+      element: firstNameInput.value,
+    },
+    {
+      value: lastName.value,
+      element: lastNameInput.value,
+    },
+    {
+      value: phone.value,
+      element: phoneInput.value,
+    },
+    {
+      value: gender.value,
+      element: genderInput.value,
+    },
+    {
+      value: birthday.value,
+      element: birthdayInput.value,
+    },
+    {
+      value: email.value,
+      element: emailInput.value,
+    },
+    {
+      value: password.value,
+      element: passwordInput.value,
+    },
+    {
+      value: confirmPassword.value,
+      element: confirmPasswordInput.value,
+    },
+  ]
+})
+
+const handleRegisterForm = () => {
+  formArray.value.forEach((item) => {
+    console.log(item.element?.$el.id)
+    if (item.value === "") {
+      const label = document.querySelector(`label[for="${item.element.id}"]`)
+      // console.log(label)
+    } else {
+    }
+  })
+}
 </script>

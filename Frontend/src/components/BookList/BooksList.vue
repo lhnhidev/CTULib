@@ -123,22 +123,22 @@ const sortUseCase = (sortCheck) => {
   if (books.value.length === 0) data = booksData.value
   switch (sortCheck) {
     case "ascByName":
-      data = handleSort(data, "name", "string")
+      data = handleSort(data, "tenSach", "string")
       break
     case "descByName":
-      data = handleSort(data, "name", "string").reverse()
+      data = handleSort(data, "tenSach", "string").reverse()
       break
     case "ascByPrice":
-      data = handleSort(data, "price")
+      data = handleSort(data, "donGia")
       break
     case "descByPrice":
-      data = handleSort(data, "price").reverse()
+      data = handleSort(data, "donGia").reverse()
       break
     case "new":
-      data = handleSort(data, "release").reverse()
+      data = handleSort(data, "namXuatBan").reverse()
       break
     case "old":
-      data = handleSort(data, "release")
+      data = handleSort(data, "namXuatBan")
       break
     default:
       throw new Error("Có lỗi ở select BooksList")
