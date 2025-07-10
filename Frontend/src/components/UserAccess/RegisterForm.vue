@@ -1,18 +1,19 @@
 <template>
   <div>
     <form
-      action="/register"
+      :action="`${api}register`"
       method="POST"
       class="mt-5 space-y-4 transition-all duration-500"
-      @submit.prevent="handleRegisterForm"
+      @submit="handleRegisterForm"
     >
       <div class="animate__animated animate__fadeIn space-y-2" v-show="!isNext">
         <div class="flex gap-4">
           <div class="flex-[2]">
             <label
+              ref="firstNameLabel"
               for="firstName"
-              class="mb-1 block text-lg text-[var(--primary-color)]"
-              >Họ và tên lót:</label
+              class="text-md mb-1 block text-[var(--primary-color)]"
+              >Nhập họ lót:</label
             >
             <input
               type="text"
@@ -20,14 +21,16 @@
               ref="firstNameInput"
               v-model="firstName"
               class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
+              @input="handleChange(firstNameLabel)"
             />
           </div>
 
           <div class="flex-1">
             <label
+              ref="lastNameLabel"
               for="lastName"
-              class="mb-1 block text-lg text-[var(--primary-color)]"
-              >Tên:</label
+              class="text-md mb-1 block text-[var(--primary-color)]"
+              >Nhập tên:</label
             >
             <input
               type="text"
@@ -35,14 +38,16 @@
               ref="lastNameInput"
               v-model="lastName"
               class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
+              @input="handleChange(lastNameLabel)"
             />
           </div>
         </div>
 
         <div>
           <label
+            ref="phoneLabel"
             for="phone"
-            class="mb-1 block text-lg text-[var(--primary-color)]"
+            class="text-md mb-1 block text-[var(--primary-color)]"
             >Số điện thoại:</label
           >
           <input
@@ -51,25 +56,36 @@
             ref="phoneInput"
             id="phone"
             class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
+            @input="handleChange(phoneLabel)"
           />
         </div>
 
         <div>
           <div class="mt-4 items-center gap-8 space-y-2">
             <div flex="flex">
-              <label class="text-lg text-[var(--primary-color)]"
-                >Giới tính:</label
-              >
+              <label
+                class="text-lg text-[var(--primary-color)]"
+                ref="genderLabel"
+                >Giới tính:
+              </label>
               <div class="ml-8 inline-block">
-                <el-radio-group v-model="gender" ref="genderInput" id="gender">
+                <el-radio-group
+                  v-model="gender"
+                  ref="genderInput"
+                  id="gender"
+                  @input="handleChange(genderLabel)"
+                >
                   <el-radio value="male">Nam</el-radio>
                   <el-radio value="female">Nữ</el-radio>
                 </el-radio-group>
               </div>
             </div>
             <div class="flex items-center justify-between gap-3">
-              <label for="birthday" class="text-lg text-[var(--primary-color)]"
-                >Ngày sinh:</label
+              <label
+                for="birthday"
+                class="text-md text-[var(--primary-color)]"
+                ref="birthdayLabel"
+                >Ngày sinh</label
               >
               <div class="demo-date-picker">
                 <div class="block">
@@ -79,6 +95,7 @@
                     ref="birthdayInput"
                     type="date"
                     placeholder="Chọn ngày"
+                    @change="handleChange(birthdayLabel)"
                   />
                 </div>
               </div>
@@ -95,31 +112,57 @@
         </div>
       </div>
 
-      <div class="animate__animated animate__fadeIn space-y-4" v-show="isNext">
-        <input
-          class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
-          type="text"
-          v-model="email"
-          id="email"
-          ref="emailInput"
-          placeholder="Nhập Email..."
-        />
-        <input
-          class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
-          type="password"
-          v-model="password"
-          id="password"
-          ref="passwordInput"
-          placeholder="Mật khẩu"
-        />
-        <input
-          class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
-          type="password"
-          v-model="confirmPassword"
-          id="confirmPassword"
-          ref="confirmPasswordInput"
-          placeholder="Xác nhận mật khẩu"
-        />
+      <div class="animate__animated animate__fadeIn space-y-2" v-show="isNext">
+        <div>
+          <label
+            ref="emailLabel"
+            for="email"
+            class="text-md mb-1 block text-[var(--primary-color)]"
+            >Địa chỉ Email:</label
+          >
+          <input
+            class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
+            type="text"
+            v-model="email"
+            id="email"
+            ref="emailInput"
+            @input="handleChange(emailLabel)"
+          />
+        </div>
+
+        <div>
+          <label
+            ref="passwordLabel"
+            for="password"
+            class="text-md mb-1 block text-[var(--primary-color)]"
+            >Nhập mật khẩu:</label
+          >
+          <input
+            class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
+            type="password"
+            v-model="password"
+            id="password"
+            ref="passwordInput"
+            @input="handleChange(passwordLabel)"
+          />
+        </div>
+
+        <div>
+          <label
+            ref="confirmPasswordLabel"
+            for="confirmPassword"
+            class="text-md mb-1 block text-[var(--primary-color)]"
+            >Xác nhận mật khẩu:</label
+          >
+          <input
+            class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
+            type="password"
+            v-model="confirmPassword"
+            id="confirmPassword"
+            ref="confirmPasswordInput"
+            @input="handleChange(confirmPasswordLabel)"
+          />
+        </div>
       </div>
 
       <div
@@ -195,11 +238,22 @@ import {
 } from "@fortawesome/free-brands-svg-icons"
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { onMounted, ref } from "vue"
+import { ref, watch, watchEffect } from "vue"
+
+const api = import.meta.env.VITE_HOST
 
 const emit = defineEmits(["update:url"])
 
 const isNext = ref(false)
+
+const firstNameLabel = ref()
+const lastNameLabel = ref()
+const phoneLabel = ref()
+const genderLabel = ref()
+const birthdayLabel = ref()
+const emailLabel = ref()
+const passwordLabel = ref()
+const confirmPasswordLabel = ref()
 
 const firstName = ref("")
 const lastName = ref("")
@@ -221,52 +275,78 @@ const confirmPasswordInput = ref()
 
 const formArray = ref([])
 
-onMounted(() => {
-  console.log(birthdayInput.value.$el)
+watch(gender, () => console.log(gender.value))
+
+watchEffect(() => {
   formArray.value = [
     {
+      type: "firstName",
       value: firstName.value,
       element: firstNameInput.value,
+      label: firstNameLabel.value,
     },
     {
+      type: "lastName",
       value: lastName.value,
       element: lastNameInput.value,
+      label: lastNameLabel.value,
     },
     {
+      type: "phone",
       value: phone.value,
       element: phoneInput.value,
+      label: phoneLabel.value,
     },
     {
+      type: "gender",
       value: gender.value,
       element: genderInput.value,
+      label: genderLabel.value,
     },
     {
+      type: "birthday",
       value: birthday.value,
       element: birthdayInput.value,
+      label: birthdayLabel.value,
     },
     {
+      type: "email",
       value: email.value,
       element: emailInput.value,
+      label: emailLabel.value,
     },
     {
+      type: "password",
       value: password.value,
       element: passwordInput.value,
+      label: passwordLabel.value,
     },
     {
+      type: "confirmPassword",
       value: confirmPassword.value,
       element: confirmPasswordInput.value,
+      label: confirmPasswordLabel.value,
     },
   ]
 })
 
-const handleRegisterForm = () => {
+const handleRegisterForm = (e) => {
+  e.preventDefault()
   formArray.value.forEach((item) => {
-    console.log(item.element?.$el.id)
-    if (item.value === "") {
-      const label = document.querySelector(`label[for="${item.element.id}"]`)
-      // console.log(label)
-    } else {
+    console.log(item.value)
+    if (item.value === "" || item.value === null) {
+      if (item.label.innerHTML[0] != "*") {
+        item.label.innerHTML = `* ${item.label.innerHTML}`
+      }
+      Object.assign(item.label.style, {
+        color: "red",
+      })
     }
   })
+}
+
+const handleChange = (ele) => {
+  ele.style.color = "var(--primary-color)"
+  if (ele.innerHTML[0] == "*") ele.innerHTML = ele.innerHTML.slice(2)
 }
 </script>
