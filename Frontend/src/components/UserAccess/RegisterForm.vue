@@ -1,5 +1,27 @@
 <template>
   <div>
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="Đăng ký thành công"
+      width="500"
+      center
+    >
+      <span>👉 Vui lòng đăng nhập để bắt đầu sử dụng hệ thống.</span>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">Hủy bỏ</el-button>
+          <router-link to="/login" class="ml-3">
+            <el-button
+              type="primary"
+              @click="centerDialogVisible = false"
+              to="/login"
+            >
+              Đăng nhập
+            </el-button>
+          </router-link>
+        </div>
+      </template>
+    </el-dialog>
     <form
       :action="`${api}register`"
       method="POST"
@@ -330,19 +352,55 @@ watchEffect(() => {
   ]
 })
 
-const handleRegisterForm = (e) => {
+const centerDialogVisible = ref(false)
+
+const handleRegisterForm = async (e) => {
   e.preventDefault()
+
+  let hasError = false
+  const payload = {}
+
   formArray.value.forEach((item) => {
-    console.log(item.value)
-    if (item.value === "" || item.value === null) {
-      if (item.label.innerHTML[0] != "*") {
+    const val = item.value?.toString().trim()
+
+    if (!val) {
+      hasError = true
+      if (!item.label.innerHTML.startsWith("*")) {
         item.label.innerHTML = `* ${item.label.innerHTML}`
       }
-      Object.assign(item.label.style, {
-        color: "red",
-      })
+      item.label.style.color = "red"
+    } else {
+      payload[item.type] = val
     }
   })
+
+  if (hasError) return
+  if (password.value != confirmPassword.value) return
+
+  const api = import.meta.env.VITE_HOST
+
+  try {
+    await fetch(`${api}register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+
+    firstName.value = ""
+    lastName.value = ""
+    phone.value = ""
+    gender.value = ""
+    birthday.value = ""
+    email.value = ""
+    password.value = ""
+    confirmPassword.value = ""
+
+    centerDialogVisible.value = true
+  } catch (err) {
+    console.log("Lỗi: " + err.message)
+  }
 }
 
 const handleChange = (ele) => {
