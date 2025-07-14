@@ -46,8 +46,10 @@
           >
         </div>
         <div>
-          <a href="#" class="block px-5 py-4 hover:text-[var(--primary-color)]"
-            >Lịch sử</a
+          <router-link
+            to="/history"
+            class="block px-5 py-4 hover:text-[var(--primary-color)]"
+            >Lịch sử</router-link
           >
         </div>
         <div>

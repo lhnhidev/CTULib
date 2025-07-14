@@ -1,6 +1,7 @@
 import RootLayout from "@/layouts/RootLayout.vue"
 import LoginForm from "@components/UserAccess/LoginForm.vue"
 import RegisterForm from "@components/UserAccess/RegisterForm.vue"
+import HistoryBooks from "@views/client/HistoryBooks.vue"
 import UserAccess from "@views/UserAccess.vue"
 import { createRouter, createWebHistory } from "vue-router"
 
@@ -24,6 +25,11 @@ const clinetRouter = [
         path: "/books/:id",
         name: "book",
         component: () => import("../views/client/BookDetailPage.vue"),
+      },
+      {
+        path: "/history",
+        name: "history",
+        component: HistoryBooks,
       },
     ],
   },
