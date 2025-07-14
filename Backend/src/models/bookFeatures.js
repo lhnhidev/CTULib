@@ -11,4 +11,4 @@ const BookFeatures = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("BookFeatures", BookFeatures, "bookFeatures");
+module.exports = mongoose.model("BookFeatures", BookFeatures, "BookFeatures");

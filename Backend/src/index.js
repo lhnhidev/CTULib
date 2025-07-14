@@ -5,6 +5,9 @@ const port = 3000;
 const data = require("./config/db");
 const router = require("./router");
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(cors());
 
 data.connect();

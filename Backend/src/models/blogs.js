@@ -5,7 +5,7 @@ const Blogs = new mongoose.Schema({
   time: String,
   title: String,
   topic: String,
-  desc: String
+  desc: String,
 });
 
-module.exports = mongoose.model("Blogs", Blogs, "blogs");
+module.exports = mongoose.model("Blogs", Blogs, "Blogs");

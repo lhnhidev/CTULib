@@ -7,4 +7,4 @@ const Votes = new mongoose.Schema({
   author: String,
 });
 
-module.exports = mongoose.model("Votes", Votes, "votes");
+module.exports = mongoose.model("Votes", Votes, "Votes");
