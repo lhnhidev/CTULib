@@ -79,11 +79,18 @@
           <div
             class="group relative cursor-pointer text-2xl hover:text-[var(--primary-color)]"
           >
-            <FontAwesomeIcon :icon="faUser" />
+            <FontAwesomeIcon :icon="faUser" v-if="!isUser" />
+            <div class="h-8 w-8" v-else>
+              <img :src="user?.avatar" alt="" class="h-8 w-8 rounded-full" />
+            </div>
             <div
               class="animate__animated animate__fadeIn absolute left-1/2 hidden -translate-x-1/2 before:block before:h-7 before:w-full before:cursor-default before:content-[''] group-hover:block"
             >
-              <HeaderMenu></HeaderMenu>
+              <HeaderMenu
+                :isUser="isUser"
+                :id="user?.id"
+                @handle-logout="handleLogout"
+              ></HeaderMenu>
             </div>
           </div>
         </div>
@@ -111,7 +118,32 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons"
 import HeaderMenu from "./HeaderMenu.vue"
+import { ref, watch } from "vue"
+import { useFetch } from "@/hooks/useFetch"
+import { useRouter } from "vue-router"
 
 const imgApi = import.meta.env.VITE_IMAGE
-// import {} from "@fortawesome/free-regular-svg-icons"
+
+const token = localStorage.getItem("token")
+const isUser = ref(false)
+const user = ref()
+
+if (token) {
+  const payload = JSON.parse(atob(token.split(".")[1]))
+  isUser.value = payload.role === "user"
+
+  const api = import.meta.env.VITE_HOST
+  const { data } = useFetch(`${api}user/${payload.id}`)
+
+  watch(data, (val) => (user.value = val))
+}
+
+const router = useRouter()
+
+const handleLogout = () => {
+  localStorage.removeItem("token")
+  user.value = null
+  isUser.value = null
+  router.push("/")
+}
 </script>

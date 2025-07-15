@@ -7,7 +7,11 @@ const User = new mongoose.Schema({
   },
   email: String,
   password: String,
-  avatar: String,
+  avatar: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/dpsj6nk7y/image/upload/v1752603322/avatar_xpfbvj.svg",
+  },
   diaChi: String,
   dienThoai: String,
   hoLot: String,

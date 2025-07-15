@@ -32,7 +32,6 @@ class RegisterController {
       await Admins.create({
         email: `${req.body.email}`,
         password: `${passwordHashed}`,
-        avatar: ``,
         diaChi: ``,
         dienThoai: `${req.body.phone}`,
         hoTenNhanVien: `${req.body.fullName}`,
@@ -44,7 +43,6 @@ class RegisterController {
     await Users.create({
       email: `${req.body.email}`,
       password: `${passwordHashed}`,
-      avatar: ``,
       diaChi: ``,
       dienThoai: `${req.body.phone}`,
       hoLot: `${req.body.firstName}`,
