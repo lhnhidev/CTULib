@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue"
+import { ref } from "vue"
 import { useRoute } from "vue-router"
 
 const { title, desc, formType } = defineProps({
@@ -41,6 +41,4 @@ const { title, desc, formType } = defineProps({
 
 const route = useRoute()
 const url = ref(route.path)
-
-watch(url, () => console.log(url))
 </script>

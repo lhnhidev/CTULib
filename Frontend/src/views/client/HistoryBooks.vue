@@ -10,17 +10,26 @@
         label="STT"
         type="index"
         width="70"
+        label-class-name="custome-lable"
         class-name="custome-lable-stt"
       />
       <el-table-column
         label="Tên sách"
         prop="name"
-        label-class-name="padding-30"
+        label-class-name="padding-30 custome-lable"
         class-name="padding-30"
         width="400"
       />
-      <el-table-column label="Ngày mượn" prop="ngayMuon" />
-      <el-table-column label="Ngày trả" prop="ngayTra" />
+      <el-table-column
+        label="Ngày mượn"
+        prop="ngayMuon"
+        label-class-name="custome-lable"
+      />
+      <el-table-column
+        label="Ngày trả"
+        prop="ngayTra"
+        label-class-name="custome-lable"
+      />
       <el-table-column
         prop="trangThai"
         label="Trạng thái"
@@ -30,6 +39,7 @@
           { text: 'Bị từ chối', value: 'Bị từ chối' },
           { text: 'Chờ xác nhận', value: 'Chờ xác nhận' },
         ]"
+        label-class-name="custome-lable"
         :filter-method="filterTag"
         filter-placement="bottom-start"
       >
@@ -42,7 +52,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column type="expand">
+      <el-table-column type="expand" label-class-name="custome-lable">
         <template #default="props">
           <div class="px-8 py-8">
             <div m="4">
@@ -98,7 +108,11 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column type="selection" width="55" />
+      <el-table-column
+        type="selection"
+        width="55"
+        label-class-name="custome-lable"
+      />
     </el-table>
   </div>
 </template>
@@ -147,16 +161,16 @@ const filterTag = (value, row) => {
 </script>
 
 <style>
-th {
+.custome-lable-stt {
+  text-align: center !important;
+}
+
+.custome-lable {
   color: white;
   background-color: var(--primary-color) !important;
   font-size: 20px !important;
   padding-bottom: 12px !important;
   padding-top: 12px !important;
-}
-
-.custome-lable-stt {
-  text-align: center !important;
 }
 
 .padding-30 {

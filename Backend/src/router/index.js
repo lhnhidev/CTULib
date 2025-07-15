@@ -4,6 +4,8 @@ const blogsRouter = require("./blogs.routes");
 const votesRouter = require("./votes.routes.js");
 const bookFeaturesRouter = require("./bookFeatures.routes.js");
 const registerRouter = require("./register.routes.js");
+const borrowingRouter = require("./borrowing.routes.js");
+const loginRouter = require("./login.routes.js");
 
 const router = (app) => {
   app.use("/books", booksRouter);
@@ -12,6 +14,8 @@ const router = (app) => {
   app.use("/votes", votesRouter);
   app.use("/bookFeatures", bookFeaturesRouter);
   app.use("/register", registerRouter);
+  app.use("/login", loginRouter);
+  app.use("/borrowing", borrowingRouter);
 };
 
 module.exports = router;

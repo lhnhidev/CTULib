@@ -1,23 +1,20 @@
 const mongoose = require("mongoose");
 
-const User = new mongoose.Schema({
-  maDocGia: {
+const Admin = new mongoose.Schema({
+  maNhanVien: {
     type: mongoose.Schema.Types.ObjectId,
     default: () => new mongoose.Types.ObjectId(),
   },
-  email: String,
+  hoTenNhanVien: String,
   password: String,
-  avatar: String,
+  chucVu: String,
   diaChi: String,
   dienThoai: String,
-  hoLot: String,
-  ngaySinh: String,
-  phai: String,
-  ten: String,
+  email: String,
   role: {
     type: String,
-    default: "user",
+    default: "admin",
   },
 });
 
-module.exports = mongoose.model("User", User, "DocGia");
+module.exports = mongoose.model("Admin", Admin, "NhanVien");

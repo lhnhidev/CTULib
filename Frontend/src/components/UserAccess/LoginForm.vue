@@ -1,13 +1,33 @@
 <template>
   <div>
-    <form action="" method="POST" class="mt-8 space-y-4">
+    <el-dialog
+      v-model="centerDialogVisible"
+      title="Đăng nhập thành công"
+      width="500"
+      center
+    >
+      <span>Vui lòng chọn tùy chọn bên dưới để di chuyển đến trang chủ!</span>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="centerDialogVisible = false">Hủy bỏ</el-button>
+          <router-link :to="authorizationLink" class="ml-3">
+            <el-button type="primary" @click="centerDialogVisible = false">
+              Trang chủ
+            </el-button>
+          </router-link>
+        </div>
+      </template>
+    </el-dialog>
+    <form class="mt-8 space-y-4" @submit="handleLogin">
       <div class="space-y-4">
         <input
+          v-model="email"
           class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
-          type="text"
+          type="email"
           placeholder="Nhập Email..."
         />
         <input
+          v-model="password"
           class="w-full rounded border border-gray-300 px-3 py-2 outline-[var(--secondary-color)] transition-all"
           type="password"
           placeholder="Mật khẩu"
@@ -80,6 +100,63 @@ import {
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { ref } from "vue"
+
+import { ElNotification } from "element-plus"
+
+const open = (message, type) => {
+  ElNotification[type]({
+    title: "Lỗi",
+    message,
+    offset: 100,
+  })
+}
 
 const emit = defineEmits(["update:url"])
+
+const email = ref("")
+const password = ref("")
+
+const centerDialogVisible = ref(false)
+const authorizationLink = ref("/")
+
+const handleLogin = async (e) => {
+  e.preventDefault()
+  if (email.value === "") {
+    open("Trường Email là bắt buộc!", "error")
+    return
+  } else if (password.value === "") {
+    open("Trường password là bắt buộc!", "error")
+    return
+  }
+
+  const api = import.meta.env.VITE_HOST
+
+  try {
+    const { account, message, token } = await fetch(`${api}login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email.value, password: password.value }),
+    }).then((res) => res.json())
+
+    if (account) {
+      localStorage.setItem("token", token)
+
+      const payload = JSON.parse(atob(token.split(".")[1]))
+      if (payload.role === "admin") {
+        authorizationLink.value = "/admin"
+      } else {
+        authorizationLink.value = "/"
+      }
+
+      centerDialogVisible.value = true
+    } else {
+      open(message, "warning")
+    }
+  } catch {
+    console.log("Có lỗi")
+  }
+}
 </script>

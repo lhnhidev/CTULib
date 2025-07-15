@@ -6,7 +6,7 @@
       width="500"
       center
     >
-      <span>👉 Vui lòng đăng nhập để bắt đầu sử dụng hệ thống.</span>
+      <span>Vui lòng chọn tùy bọn bên dưới để đăng nhập vào hệ thống!</span>
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="centerDialogVisible = false">Hủy bỏ</el-button>
@@ -23,8 +23,6 @@
       </template>
     </el-dialog>
     <form
-      :action="`${api}register`"
-      method="POST"
       class="mt-5 space-y-4 transition-all duration-500"
       @submit="handleRegisterForm"
     >
@@ -260,9 +258,16 @@ import {
 } from "@fortawesome/free-brands-svg-icons"
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { ref, watch, watchEffect } from "vue"
+import { ref, watchEffect } from "vue"
+import { ElNotification } from "element-plus"
 
-const api = import.meta.env.VITE_HOST
+const open = (message, type) => {
+  ElNotification[type]({
+    title: "Lỗi",
+    message,
+    offset: 100,
+  })
+}
 
 const emit = defineEmits(["update:url"])
 
@@ -296,8 +301,6 @@ const passwordInput = ref()
 const confirmPasswordInput = ref()
 
 const formArray = ref([])
-
-watch(gender, () => console.log(gender.value))
 
 watchEffect(() => {
   formArray.value = [
@@ -360,6 +363,7 @@ const handleRegisterForm = async (e) => {
   let hasError = false
   const payload = {}
 
+  let flag = false
   formArray.value.forEach((item) => {
     const val = item.value?.toString().trim()
 
@@ -369,24 +373,38 @@ const handleRegisterForm = async (e) => {
         item.label.innerHTML = `* ${item.label.innerHTML}`
       }
       item.label.style.color = "red"
+      if (flag === false) {
+        open("Vui lòng nhập đủ thông tin", "error")
+        flag = true
+      }
     } else {
       payload[item.type] = val
     }
   })
+  flag = false
 
   if (hasError) return
-  if (password.value != confirmPassword.value) return
 
   const api = import.meta.env.VITE_HOST
 
   try {
-    await fetch(`${api}register`, {
+    const { messeage } = await fetch(`${api}register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
-    })
+    }).then((res) => res.json())
+
+    if (messeage === "account is exist") {
+      open("Email đã được sử dụng, vui lòng dùng Email khác!", "warning")
+      return
+    }
+
+    if (password.value != confirmPassword.value) {
+      open("Mật khẩu và mật khẩu xác thực không khớp", "error")
+      return
+    }
 
     firstName.value = ""
     lastName.value = ""
