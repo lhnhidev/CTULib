@@ -1,4 +1,13 @@
 <template>
+  <BreadcrumbComponent
+    :title="book?.name"
+    :styleTitle="{ fontSize: '20px', wordSpacing: '2px' }"
+    :breadcrumb="[
+      { label: 'Trang chủ', path: '/' },
+      { label: 'Sách', path: '/books' },
+      { label: book?.name, path: '' },
+    ]"
+  ></BreadcrumbComponent>
   <div :key="keyValue">
     <div v-if="book" class="flex justify-between gap-16 px-20 py-10">
       <BookImage :image="book.image"></BookImage>
@@ -42,6 +51,7 @@ import { useRoute } from "vue-router"
 import TabInfoBook from "@components/BookDetails/TabInfoBook.vue"
 import Slider from "@components/Slider/Slider.vue"
 import { computed, ref, watch } from "vue"
+import BreadcrumbComponent from "@components/BreadcrumbComponent.vue"
 
 const route = useRoute()
 const id = ref(route.params.id)

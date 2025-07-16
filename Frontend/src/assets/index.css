@@ -89,7 +89,7 @@ html {
 .bar::after {
   content: "";
   display: inline-block;
-  border-left: 1px solid gray;
+  border-left: 1px solid white;
   height: 16px;
   margin-left: 12px;
   position: relative;

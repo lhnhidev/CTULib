@@ -1,16 +1,19 @@
 <template>
+  <CartSideBar
+    v-if="showCartSideBar"
+    @toogleShowCartSideBar="changeShowCartSideBar"
+    :showCartSideBar="showCartSideBar"
+  ></CartSideBar>
   <header class="sticky top-[-44px] z-50 w-full shadow-sm">
     <div
-      class="flex justify-between bg-[var(--bg-black-color)] px-4 py-3 text-sm text-gray-300"
+      class="flex justify-between bg-[var(--primary-color)] px-4 py-3 text-sm text-white"
     >
       <div>
-        <span
-          >Limited Time Offer : Up To 50% Off Every Week For Selected Item</span
-        >
+        <span>Đồng thuận - Tận tâm - Chuẩn mực - Sáng tạo</span>
       </div>
 
       <div class="flex gap-3">
-        <span class="bar">demo@example.com</span>
+        <span class="bar">demo@gmail.com</span>
         <span class="bar">(+91) 9876-543-210</span>
         <span class="bar">Vietnamese</span>
         <span>USD</span>
@@ -100,7 +103,10 @@
           </a>
         </div>
         <div class="flex items-center">
-          <a href="#" class="text-2xl hover:text-[var(--primary-color)]">
+          <a
+            @click="showCartSideBar = true"
+            class="cursor-pointer text-2xl hover:text-[var(--primary-color)]"
+          >
             <FontAwesomeIcon :icon="faBagShopping" />
           </a>
         </div>
@@ -121,12 +127,24 @@ import HeaderMenu from "./HeaderMenu.vue"
 import { ref, watch } from "vue"
 import { useFetch } from "@/hooks/useFetch"
 import { useRouter } from "vue-router"
+import { ElMessage } from "element-plus"
+import CartSideBar from "./CartSideBar/CartSideBar.vue"
 
 const imgApi = import.meta.env.VITE_IMAGE
 
 const token = localStorage.getItem("token")
 const isUser = ref(false)
 const user = ref()
+const showCartSideBar = ref(false)
+
+watch(showCartSideBar, () => {
+  document.body.style.overflow = showCartSideBar.value ? "hidden" : "auto"
+  document.body.style.marginRight = showCartSideBar.value ? "15px" : "0px"
+})
+
+const changeShowCartSideBar = () => {
+  showCartSideBar.value = !showCartSideBar.value
+}
 
 if (token) {
   const payload = JSON.parse(atob(token.split(".")[1]))
@@ -145,5 +163,11 @@ const handleLogout = () => {
   user.value = null
   isUser.value = null
   router.push("/")
+
+  ElMessage({
+    message: "Đăng xuất thành công.",
+    type: "primary",
+    plain: true,
+  })
 }
 </script>
