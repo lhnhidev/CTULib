@@ -32,8 +32,40 @@
           </div>
 
           <div class="h-[500px] overflow-y-auto">
+            <div
+              v-if="!products?.length"
+              class="mt-20 flex flex-col items-center"
+            >
+              <div>
+                <img
+                  class="w-24 opacity-60"
+                  src="https://res.cloudinary.com/dpsj6nk7y/image/upload/v1752696401/no-image_eldgra.svg"
+                  alt="Ảnh lỗi"
+                />
+              </div>
+              <div>
+                <h3 class="mb-2 mt-4 px-6 text-center text-xl">
+                  Giỏ hàng của bạn trống.
+                </h3>
+                <p class="px-10 text-center text-sm text-gray-500">
+                  Bạn có thể tra cứu tất cả sách hiện có và thực hiện mượn sách
+                  tại thư viện.
+                </p>
+              </div>
+
+              <div>
+                <router-link
+                  to="/books"
+                  @click="handle"
+                  class="mt-8 block rounded bg-[var(--primary-color)] px-5 py-3 text-[16px] uppercase text-white transition-all hover:bg-[var(--secondary-color)]"
+                >
+                  Khám phá kho sách
+                </router-link>
+              </div>
+            </div>
             <BoxBook
               v-for="(book, index) in products"
+              v-else
               @handle-close="handle"
               :book="book"
               :key="index"
@@ -42,6 +74,7 @@
 
           <div>
             <CartSideBarBottom
+              v-if="products?.length"
               :amount="
                 products?.reduce((total, item) => {
                   return total + item.soLuong
@@ -49,6 +82,12 @@
               "
               :handle="handle"
             ></CartSideBarBottom>
+            <div
+              v-else
+              class="mt-20 border-t border-gray-200 px-4 py-2 text-center text-black"
+            >
+              Tổng số sách đăng ký mượn: 0
+            </div>
           </div>
         </div>
       </div>

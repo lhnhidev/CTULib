@@ -7,7 +7,10 @@ class BooksController {
 
   async showBookDetail(req, res) {
     const id = req.params.id;
-    res.json(await Books.findOne({ _id: id }));
+    if (id === undefined) {
+      res.json({});
+    }
+    res.json(await Books.findOne({ maSach: id }));
   }
 }
 

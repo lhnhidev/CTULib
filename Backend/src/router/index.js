@@ -7,6 +7,7 @@ const registerRouter = require("./register.routes.js");
 const borrowingRouter = require("./borrowing.routes.js");
 const loginRouter = require("./login.routes.js");
 const userRouter = require("./user.routes.js");
+const cartRouter = require("./cart.routes.js");
 
 const router = (app) => {
   app.use("/books", booksRouter);
@@ -18,6 +19,7 @@ const router = (app) => {
   app.use("/login", loginRouter);
   app.use("/borrowing", borrowingRouter);
   app.use("/user", userRouter);
+  app.use("/cart", cartRouter);
 };
 
 module.exports = router;

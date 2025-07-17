@@ -15,6 +15,9 @@ const Books = new mongoose.Schema({
   lang: String,
   image: Array,
   vote: Number,
+  maSach: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
 });
 
 Books.virtual("name")

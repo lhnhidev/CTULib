@@ -74,9 +74,12 @@
 
       <div class="flex gap-5">
         <div class="flex items-center">
-          <a href="#" class="text-2xl hover:text-[var(--primary-color)]">
+          <router-link
+            to="/books"
+            class="text-2xl hover:text-[var(--primary-color)]"
+          >
             <FontAwesomeIcon :icon="faMagnifyingGlass" />
-          </a>
+          </router-link>
         </div>
         <div class="flex items-center">
           <div

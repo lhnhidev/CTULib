@@ -68,12 +68,13 @@ const {
   style: Object,
 })
 
-import { ref } from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 
 const state = ref(0)
 const width = window.innerWidth
-
 const amountDisplayBooks = width >= 768 ? amountDisplay : 2
+
+let timer = null
 
 const handleMoveRight = () => {
   if (state.value === data.length - amountDisplayBooks) {
@@ -81,6 +82,7 @@ const handleMoveRight = () => {
   } else {
     state.value++
   }
+  resetTimer()
 }
 
 const handleMoveLeft = () => {
@@ -89,5 +91,27 @@ const handleMoveLeft = () => {
   } else {
     state.value--
   }
+  resetTimer()
 }
+
+const autoMoveRight = () => {
+  if (state.value === data.length - amountDisplayBooks) {
+    state.value = 0
+  } else {
+    state.value++
+  }
+}
+
+const resetTimer = () => {
+  if (timer) clearInterval(timer)
+  timer = setInterval(autoMoveRight, 4000)
+}
+
+onMounted(() => {
+  timer = setInterval(autoMoveRight, 4000)
+})
+
+onUnmounted(() => {
+  if (timer) clearInterval(timer)
+})
 </script>
