@@ -63,7 +63,7 @@
               </div>
               <div class="flex flex-1">
                 <div
-                  class="space-y-2 border-r border-r-slate-200 pr-12 text-[15px]"
+                  class="flex flex-col items-start space-y-2 border-r border-r-slate-200 pr-12 text-[15px]"
                 >
                   <p m="t-0 b-2">
                     <span class="text-md mr-2 text-black">Mã sách:</span>
@@ -72,6 +72,18 @@
                   <p m="t-0 b-2">
                     <span class="text-md mr-2 text-black">Tác giả:</span>
                     {{ props.row.author }}
+                  </p>
+                  <p m="t-0 b-2" class="flex items-center gap-2">
+                    <span class="text-md mr-2 text-black">Ngôn ngữ:</span>
+                    <img
+                      :src="`https://flagcdn.com/24x18/${handleLang(props.row.lang)}.png`"
+                      :srcset="`https://flagcdn.com/48x36/${handleLang(props.row.lang)}.png 2x,
+                    https://flagcdn.com/72x54/${handleLang(props.row.lang)}.png 3x`"
+                      width="24"
+                      height="18"
+                      :alt="props.row.lang"
+                      :title="props.row.lang"
+                    />
                   </p>
                   <p m="t-0 b-2">
                     <span class="text-md mr-2 text-black">Nhà xuất bản:</span>
@@ -86,7 +98,7 @@
 
                   <div>
                     <button
-                      class="mt-10 block rounded bg-red-500 px-3 py-1 text-white transition-all hover:bg-red-600"
+                      class="block rounded bg-red-500 px-3 py-1 text-white transition-all hover:bg-red-600"
                     >
                       Hủy mượn
                     </button>
@@ -142,6 +154,23 @@ const getTagType = (tag) => {
       return "danger"
     default:
       return undefined
+  }
+}
+
+const handleLang = (lang) => {
+  switch (lang) {
+    case "Tiếng Việt":
+      return "vn"
+    case "Tiếng Anh":
+      return "gb"
+    case "Tiếng Trung":
+      return "cn"
+    case "Tiếng Nhật":
+      return "jp"
+    case "Tiếng Hàn":
+      return "kr"
+    default:
+      return "vn"
   }
 }
 </script>

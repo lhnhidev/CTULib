@@ -10,6 +10,15 @@ export const formatCurrency = (number, currency = "USD") => {
   return formatter.format(number)
 }
 
+export const notifyMessage = (type, position, title, message) => {
+  ElNotification({
+    title,
+    message,
+    position,
+    type,
+  })
+}
+
 export const isUserLoggedIn = (type, position, title, message) => {
   const token = localStorage.getItem("token")
 
