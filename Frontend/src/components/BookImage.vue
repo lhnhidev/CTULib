@@ -68,7 +68,7 @@ const handleMouseMove = (e) => {
 
   zoomStyle.value = {
     backgroundImage: `url('${currentImg.value}')`,
-    backgroundSize: "200%",
+    backgroundSize: "250%",
     backgroundPosition: `${percentX}% ${percentY}%`,
   }
 }

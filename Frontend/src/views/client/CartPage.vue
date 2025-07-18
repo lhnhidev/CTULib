@@ -9,10 +9,13 @@
   <div class="flex justify-between gap-10 px-20 py-10">
     <div class="max-h-[498px] w-[70%]">
       <el-table
-        :data="books.filter((book) => !deletedRows.includes(book.maSach))"
+        :data="
+          books?.filter((book) => !deletedRows.includes(book.maSach)).reverse()
+        "
         :preserve-expanded-content="preserveExpanded"
         style="width: 100%"
         height="100%"
+        @selection-change="handleSelectionChange"
       >
         <el-table-column
           label="STT"
@@ -201,14 +204,15 @@
         <div class="flex w-full justify-between">
           <span class="">Tổng số đầu sách mượn: </span>
           <span class="text-gray-600"
-            >10 <span class="text-xs">đầu sách</span></span
+            >{{ books?.length }} <span class="text-xs">đầu sách</span></span
           >
         </div>
 
         <div class="flex w-full justify-between">
           <span class="">Tổng số sách mượn: </span>
           <span class="text-gray-600"
-            >12 <span class="text-xs">quyển</span></span
+            >{{ books?.reduce((total, item) => total + item.soLuong, 0) }}
+            <span class="text-xs">quyển</span></span
           >
         </div>
       </div>
@@ -264,7 +268,7 @@
 <script setup>
 import { useFetch } from "@/hooks/useFetch"
 import BreadcrumbComponent from "@components/BreadcrumbComponent.vue"
-import { isUserLoggedIn, notifyMessage } from "@utils/index"
+import { notifyMessage } from "@utils/index"
 import { nextTick, onUpdated, ref, watch } from "vue"
 
 const preserveExpanded = ref(false)
@@ -325,23 +329,72 @@ const isRowSelectable = (row) => {
   return !!(currentDate && currentDate[0] && currentDate[1])
 }
 
-const handleAskingBrrowingBook = () => {
-  if (
-    !isUserLoggedIn(
-      "error",
-      "bottom-right",
-      "Vui lòng đăng nhập tài khoản",
-      "Để thực hiện gửi yêu cầu mượn sách, bạn phải đăng nhập trước đó",
-    )
-  )
-    return
+const checkedMaSach = ref([])
+const borrowingBooks = ref([])
 
+const handleSelectionChange = (row) => {
+  checkedMaSach.value = row.map((r) => r.maSach)
+}
+
+const handleAskingBrrowingBook = async () => {
   if (!isChecked.value) {
     notifyMessage(
       "warning",
       "bottom-right",
       "Bạn chưa đồng ý điều khoản",
       "Vui lòng đọc và ấn chọn chấn nhận điều khoản",
+    )
+    return
+  }
+
+  if (checkedMaSach.value.length === 0) {
+    notifyMessage(
+      "warning",
+      "bottom-right",
+      "Bạn chưa chọn sản phẩm cần mượn",
+      "Vui lòng ấn chọn các sản phẩm bạn muốn mượn",
+    )
+    return
+  } else {
+    checkedMaSach.value.forEach((item) => {
+      borrowingBooks.value = [
+        ...borrowingBooks.value,
+        {
+          maDocGia: JSON.parse(atob(token.split(".")[1])).id,
+          maSach: item,
+          ngayMuon: dates.value[item][0],
+          ngayTra: dates.value[item][1],
+          trangThai: "Chờ xác nhận",
+          ghiChu: notes.value[item],
+          soLuongMuon: newAmounts.value[item],
+        },
+      ]
+    })
+  }
+
+  const { message } = await fetch(`${api}borrowing/borrowingBooks`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      borrowingBooks: borrowingBooks.value,
+    }),
+  }).then((res) => res.json())
+
+  borrowingBooks.value.forEach((item) => {
+    handelDeleteOutCart(item.maSach, false)
+  })
+
+  borrowingBooks.value = []
+
+  if (message === "thành công") {
+    notifyMessage(
+      "success",
+      "bottom-right",
+      "Gửi phiếu mượn thành công",
+      "Bạn đã gửi phiếu mượn thành công, vui lòng chờ phản hồi từ Thư viện",
     )
   }
 }
@@ -379,7 +432,7 @@ onUpdated(() => {
   })
 })
 
-const handelDeleteOutCart = async (maSach) => {
+const handelDeleteOutCart = async (maSach, notify = true) => {
   const token = localStorage.getItem("token")
   const maDocGia = JSON.parse(atob(token.split(".")[1])).id
 
@@ -394,7 +447,7 @@ const handelDeleteOutCart = async (maSach) => {
     }),
   }).then((res) => res.json())
 
-  if (message === "Xóa khỏi giỏ thành công") {
+  if (message === "Xóa khỏi giỏ thành công" && notify === true) {
     notifyMessage(
       "success",
       "bottom-right",

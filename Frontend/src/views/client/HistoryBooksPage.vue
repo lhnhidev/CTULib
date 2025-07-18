@@ -37,7 +37,6 @@ const token = localStorage.getItem("token")
 const totalPage = ref(initBooks.value.length)
 
 const handlePageChange = (newPage) => {
-  console.log(newPage)
   const start = 10 * (newPage - 1)
   const end = 10 * newPage
   console.log(start, end)
@@ -51,22 +50,25 @@ const main = async () => {
   if (!token) return
 
   const user = JSON.parse(atob(token.split(".")[1]))
-  console.log(user.id)
   tableData.value = await fetch(`${api}borrowing/${user.id}`).then((res) =>
     res.json(),
   )
 
-  await tableData.value.forEach(async (item) => {
+  for (const item of tableData.value) {
     const book = await fetch(`${api}books/${item.maSach}`).then((res) =>
       res.json(),
     )
     initBooks.value.push({ ...book, ...item })
-    books.value = initBooks.value.slice(
-      0,
-      initBooks.value < 10 ? initBooks.value : 10,
-    )
-    totalPage.value = initBooks.value.length
-  })
+  }
+
+  initBooks.value.sort(
+    (a, b) => new Date(b.ngayDangKyMuon) - new Date(a.ngayDangKyMuon),
+  )
+  books.value = initBooks.value.slice(
+    0,
+    initBooks.value < 10 ? initBooks.value : 10,
+  )
+  totalPage.value = initBooks.value.length
 }
 
 main()

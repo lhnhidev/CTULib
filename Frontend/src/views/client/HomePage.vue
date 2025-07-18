@@ -42,7 +42,7 @@
   </Slider>
 
   <BannerComponent
-    src="/banner-3.jpg"
+    src="https://res.cloudinary.com/dpsj6nk7y/image/upload/v1752865788/banner-3_tjujhd.jpg"
     alt="banner-3"
     :price="72"
     name="Identity Theft Secrets Exposing The Tricks Of The Trade!"

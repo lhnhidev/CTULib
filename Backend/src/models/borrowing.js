@@ -14,6 +14,10 @@ const Borrowing = new mongoose.Schema({
   trangThai: String,
   ghiChu: String,
   soLuongMuon: Number,
+  ngayDangKyMuon: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Borrowing", Borrowing, "TheoDoiMuonSach");

@@ -21,31 +21,48 @@
     <el-table-column
       label="Ngày mượn"
       prop="ngayMuon"
-      width="260"
-      label-class-name="custome-lable"
+      width="175"
+      label-class-name="custome-lable text-center"
+      class-name="text-center"
     />
     <el-table-column
       label="Ngày trả"
       prop="ngayTra"
-      width="260"
-      label-class-name="custome-lable"
+      width="175"
+      label-class-name="custome-lable text-center"
+      class-name="text-center"
     />
+    <el-table-column
+      label="Ngày đăng ký"
+      prop="ngayDangKyMuon"
+      width="175"
+      label-class-name="custome-lable text-center"
+      class-name="text-center"
+    >
+      <template #default="scope">
+        <p>
+          {{
+            scope.row.ngayDangKyMuon.slice(0, 10).split("-").reverse().join("-")
+          }}
+        </p>
+      </template>
+    </el-table-column>
     <el-table-column
       prop="trangThai"
       label="Trạng thái"
-      width="260"
+      width="230"
       :filters="[
         { text: 'Đang mượn', value: 'Đang mượn' },
         { text: 'Đã trả', value: 'Đã trả' },
         { text: 'Bị từ chối', value: 'Bị từ chối' },
         { text: 'Chờ xác nhận', value: 'Chờ xác nhận' },
       ]"
-      label-class-name="custome-lable"
+      label-class-name="custome-lable text-center"
       :filter-method="filterTag"
       filter-placement="bottom-start"
     >
       <template #default="scope">
-        <div class="py-2">
+        <div class="flex justify-center py-2">
           <el-tag :type="getTagType(scope.row.trangThai)" disable-transitions>
             {{ scope.row.trangThai }}
           </el-tag>

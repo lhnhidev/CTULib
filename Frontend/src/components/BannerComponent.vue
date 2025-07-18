@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" :style="style">
+  <div class="relative" :style="style" :key="src">
     <img :src="src" :alt="alt" class="animate__animated animate__fadeIn" />
 
     <div
