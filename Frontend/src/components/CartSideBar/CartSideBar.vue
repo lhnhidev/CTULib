@@ -103,6 +103,9 @@ import BoxBook from "./BoxBook.vue"
 import CartSideBarBottom from "./CartSideBarBottom.vue"
 import { useFetch } from "@/hooks/useFetch"
 
+const isReload = ref(false)
+watch(isReload, () => console.log(isReload.value))
+
 const emit = defineEmits(["toogleShowCartSideBar"])
 const { showCartSideBar } = defineProps({
   showCartSideBar: Boolean,

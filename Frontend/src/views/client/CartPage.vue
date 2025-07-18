@@ -9,7 +9,7 @@
   <div class="flex justify-between gap-10 px-20 py-10">
     <div class="max-h-[498px] w-[70%]">
       <el-table
-        :data="books"
+        :data="books.filter((book) => !deletedRows.includes(book.maSach))"
         :preserve-expanded-content="preserveExpanded"
         style="width: 100%"
         height="100%"
@@ -104,9 +104,10 @@
 
                       <div>
                         <button
-                          class="block rounded bg-red-500 px-3 py-1 text-white transition-all hover:bg-red-600"
+                          @click="() => handelDeleteOutCart(props.row.maSach)"
+                          class="mx-auto mt-3 block rounded bg-red-500 px-3 py-1 text-white transition-all hover:bg-red-600"
                         >
-                          Hủy mượn
+                          Xóa khỏi giỏ hàng
                         </button>
                       </div>
                     </div>
@@ -263,7 +264,7 @@
 <script setup>
 import { useFetch } from "@/hooks/useFetch"
 import BreadcrumbComponent from "@components/BreadcrumbComponent.vue"
-import { notifyMessage } from "@utils/index"
+import { isUserLoggedIn, notifyMessage } from "@utils/index"
 import { nextTick, onUpdated, ref, watch } from "vue"
 
 const preserveExpanded = ref(false)
@@ -273,6 +274,7 @@ const newAmounts = ref({})
 const dates = ref({})
 const notes = ref({})
 const isChecked = ref(false)
+const deletedRows = ref([])
 
 const token = localStorage.getItem("token")
 
@@ -324,6 +326,16 @@ const isRowSelectable = (row) => {
 }
 
 const handleAskingBrrowingBook = () => {
+  if (
+    !isUserLoggedIn(
+      "error",
+      "bottom-right",
+      "Vui lòng đăng nhập tài khoản",
+      "Để thực hiện gửi yêu cầu mượn sách, bạn phải đăng nhập trước đó",
+    )
+  )
+    return
+
   if (!isChecked.value) {
     notifyMessage(
       "warning",
@@ -366,6 +378,33 @@ onUpdated(() => {
     })
   })
 })
+
+const handelDeleteOutCart = async (maSach) => {
+  const token = localStorage.getItem("token")
+  const maDocGia = JSON.parse(atob(token.split(".")[1])).id
+
+  const { message } = await fetch(`${api}cart/delete`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      maDocGia,
+      maSach,
+    }),
+  }).then((res) => res.json())
+
+  if (message === "Xóa khỏi giỏ thành công") {
+    notifyMessage(
+      "success",
+      "bottom-right",
+      "Xóa khỏi giở hàng thành công",
+      "Bạn đã thực hiện xóa sản phẩm khỏi giỏ hàng",
+    )
+  }
+
+  deletedRows.value.push(maSach)
+}
 </script>
 
 <style>
