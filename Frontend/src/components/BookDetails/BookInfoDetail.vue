@@ -1,11 +1,11 @@
 <template>
-  <div class="space-y-1">
+  <div class="relative space-y-1">
     <p>
       Tác giả: <span class="ml-1 text-gray-600">{{ book.author }}</span>
     </p>
     <p>
       Nhà sản xuất:
-      <span class="ml-1 text-gray-600">{{ book.publisher }}</span>
+      <span class="ml-1 text-gray-600">{{ nxb?.tenNXB }}</span>
     </p>
     <p>
       Năm xuất bản:
@@ -41,10 +41,16 @@
         </div>
       </div>
     </div>
+
+    <div class="w-30 absolute right-0 top-0 rounded bg-gray-100 px-4 py-2">
+      <img :src="nxb?.image" :alt="nxb?.tenNXB" />
+    </div>
   </div>
 </template>
 
 <script setup>
+import { useFetch } from "@/hooks/useFetch"
+
 const { book } = defineProps({
   book: Object,
 })
@@ -86,4 +92,7 @@ const handleLang = (lang) => {
       return "vn"
   }
 }
+
+const api = import.meta.env.VITE_HOST
+const { data: nxb } = useFetch(`${api}publishers/${book.publisher}`)
 </script>

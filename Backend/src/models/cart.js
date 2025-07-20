@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const Cart = new mongoose.Schema({
   maDocGia: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "DocGia",
   },
   maSach: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Sach",
   },
   soLuong: Number,

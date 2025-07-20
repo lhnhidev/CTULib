@@ -8,8 +8,10 @@ const borrowingRouter = require("./borrowing.routes.js");
 const loginRouter = require("./login.routes.js");
 const userRouter = require("./user.routes.js");
 const cartRouter = require("./cart.routes.js");
+const adminRouter = require("./admin.routes.js");
 
 const router = (app) => {
+  app.use("/admin", adminRouter);
   app.use("/books", booksRouter);
   app.use("/publishers", publishersRouter);
   app.use("/blogs", blogsRouter);

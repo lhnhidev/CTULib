@@ -11,8 +11,6 @@ function verifyToken(req, res, next) {
     return res.status(401).json({ message: "Token không có" });
   }
 
-  console.log(token);
-
   try {
     // eslint-disable-next-line no-undef
     const decoded = jwt.verify(token, process.env.SECRET_KEY);

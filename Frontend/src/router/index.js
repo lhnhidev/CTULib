@@ -1,48 +1,45 @@
-import RootLayout from "@/layouts/RootLayout.vue"
 import LoginForm from "@components/UserAccess/LoginForm.vue"
 import RegisterForm from "@components/UserAccess/RegisterForm.vue"
-import HistoryBooksPage from "@views/client/HistoryBooksPage.vue"
-import CartPage from "@views/client/CartPage.vue"
-import UserAccess from "@views/UserAccess.vue"
 import { createRouter, createWebHistory } from "vue-router"
+import NotFoundPage from "@views/NotFoundPage.vue"
 
 const clinetRouter = [
   {
     path: "/",
     name: "root-layout-client",
-    component: RootLayout,
+    component: () => import("../layouts/RootLayoutClinet.vue"),
     children: [
       {
-        path: "/",
+        path: "",
         name: "home",
         component: () => import("../views/client/HomePage.vue"),
       },
       {
-        path: "/books",
+        path: "books",
         name: "books",
         component: () => import("../views/client/BooksPage.vue"),
       },
       {
-        path: "/books/:id",
+        path: "books/:id",
         name: "book",
         component: () => import("../views/client/BookDetailPage.vue"),
       },
       {
-        path: "/history",
+        path: "history",
         name: "history",
-        component: HistoryBooksPage,
+        component: () => import("../views/client/HistoryBooksPage.vue"),
       },
       {
-        path: "/cart",
+        path: "cart",
         name: "cart",
-        component: CartPage,
+        component: () => import("../views/client/CartPage.vue"),
       },
     ],
   },
   {
     path: "/login",
     name: "login",
-    component: UserAccess,
+    component: () => import("../views/UserAccess.vue"),
     props: {
       title: "Đăng nhập",
       desc: "Bạn cần tài khoản CTU để đăng nhập.",
@@ -52,7 +49,7 @@ const clinetRouter = [
   {
     path: "/register",
     name: "register",
-    component: UserAccess,
+    component: () => import("../views/UserAccess.vue"),
     props: {
       title: "Đăng ký",
       desc: "Trang này giúp bạn tạo tài khoản. Vui lòng cung cấp đầy đủ thông tin.",
@@ -61,9 +58,44 @@ const clinetRouter = [
   },
 ]
 
-const adminRouter = []
+const adminRouter = [
+  {
+    path: "/admin",
+    name: "root-layout-admin",
+    component: () => import("../layouts/RootLayoutAdmin.vue"),
+    children: [
+      {
+        path: "",
+        name: "dashboard",
+        component: () => import("../views/admin/DashBoard.vue"),
+      },
+      {
+        path: "books",
+        name: "clinet-books",
+        component: () => import("../views/admin/BooksPageDashBoard.vue"),
+      },
+      {
+        path: "books/:id",
+        name: "clinet-book",
+        component: () => import("../views/admin/EditBooksDashBoard.vue"),
+      },
+      {
+        path: "history",
+        name: "client-history",
+        component: () => import("../views/admin/ManageBorrowingBooks.vue"),
+      },
+    ],
+  },
+]
 
-const routes = [...clinetRouter, ...adminRouter]
+const routes = [
+  ...clinetRouter,
+  ...adminRouter,
+  {
+    path: "/:pathMatch(.*)*",
+    component: NotFoundPage,
+  },
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

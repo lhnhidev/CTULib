@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const Admin = new mongoose.Schema({
-  maNhanVien: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
-  },
+  maNhanVien: String,
   hoTenNhanVien: String,
   password: String,
   chucVu: String,

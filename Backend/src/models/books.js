@@ -4,10 +4,7 @@ const Books = new mongoose.Schema({
   tenSach: String,
   donGia: Number,
   soQuyen: Number,
-  maNXB: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "NhaXuatBan",
-  },
+  maNXB: String,
   namXuatBan: Number,
   desc: String,
   author: String,
@@ -15,9 +12,7 @@ const Books = new mongoose.Schema({
   lang: String,
   image: Array,
   vote: Number,
-  maSach: {
-    type: mongoose.Schema.Types.ObjectId,
-  },
+  maSach: String,
 });
 
 Books.virtual("name")

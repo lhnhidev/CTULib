@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="books"
+    :data="booksWithNXB"
     :preserve-expanded-content="preserveExpanded"
     style="width: 100%"
   >
@@ -8,14 +8,14 @@
       label="STT"
       type="index"
       width="70"
-      label-class-name="custome-lable"
+      label-class-name="custome-lable my-flex-center"
       class-name="custome-lable-stt"
     />
     <el-table-column
       label="Tên sách"
       prop="name"
-      label-class-name="padding-30 custome-lable"
-      class-name="padding-30 "
+      label-class-name="padding-30 custome-lable my-text-left"
+      class-name="padding-30 my-text-left"
       width="400"
     />
     <el-table-column
@@ -70,7 +70,11 @@
       </template>
     </el-table-column>
 
-    <el-table-column type="expand" label-class-name="custome-lable" width="48">
+    <el-table-column
+      type="expand"
+      label-class-name="custome-lable text-center"
+      width="48"
+    >
       <template #default="props">
         <div class="px-8 py-8">
           <div m="4">
@@ -104,7 +108,7 @@
                   </p>
                   <p m="t-0 b-2">
                     <span class="text-md mr-2 text-black">Nhà xuất bản:</span>
-                    {{ props.row.maNXB }}
+                    {{ props.row.tenNXB }}
                   </p>
                   <p m="t-0 b-2">
                     <span class="text-md mr-2 text-black"
@@ -147,7 +151,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, watchEffect } from "vue"
 
 const { books } = defineProps({
   books: Array,
@@ -156,6 +160,25 @@ const { books } = defineProps({
 const filterTag = (value, row) => {
   return row.trangThai === value
 }
+
+const booksWithNXB = ref([])
+
+const api = import.meta.env.VITE_HOST
+
+const renderNameNXB = async (id) => {
+  const res = await fetch(`${api}publishers/${id}`)
+  const data = await res.json()
+  return data.tenNXB
+}
+
+watchEffect(async () => {
+  booksWithNXB.value = await Promise.all(
+    books.map(async (book) => {
+      const tenNXB = await renderNameNXB(book.maNXB)
+      return { ...book, tenNXB }
+    }),
+  )
+})
 
 const preserveExpanded = ref(false)
 
@@ -208,5 +231,13 @@ const handleLang = (lang) => {
 .padding-30 {
   padding-left: 30px !important;
   padding-right: 30px !important;
+}
+
+.cell {
+  text-align: center;
+}
+
+.my-text-left > .cell {
+  text-align: left !important;
 }
 </style>

@@ -151,6 +151,7 @@ const changeShowCartSideBar = () => {
 
 if (token) {
   const payload = JSON.parse(atob(token.split(".")[1]))
+
   isUser.value = payload.role === "user"
 
   const api = import.meta.env.VITE_HOST

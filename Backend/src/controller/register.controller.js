@@ -28,6 +28,9 @@ class RegisterController {
 
     const passwordHashed = await bcrypt.hash(req.body.password, 8);
 
+    const countAdmin = await Admins.countDocuments();
+    const countUser = await Users.countDocuments();
+
     if (req.body.role === "admin") {
       await Admins.create({
         email: `${req.body.email}`,
@@ -35,6 +38,7 @@ class RegisterController {
         diaChi: ``,
         dienThoai: `${req.body.phone}`,
         hoTenNhanVien: `${req.body.fullName}`,
+        maNhanVien: `STAFF${String(countAdmin + 1).padStart(3, "0")}`,
       });
       res.json({ message: req.body });
       return;
@@ -49,6 +53,7 @@ class RegisterController {
       ngaySinh: `${formattedDate}`,
       phai: `${req.body.gender}`,
       ten: `${req.body.lastName}`,
+      maDocGia: `READER${String(countUser + 1).padStart(3, "0")}`,
     });
 
     res.json({ message: req.body });

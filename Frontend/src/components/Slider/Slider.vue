@@ -43,7 +43,7 @@
           :user="ele.author"
           :time="ele.time"
           :topic="ele.topic"
-          :id="ele._id"
+          :maSach="ele.maSach || ele._id"
         ></slot>
       </div>
     </div>
@@ -95,7 +95,7 @@ const handleMoveLeft = () => {
 }
 
 const autoMoveRight = () => {
-  if (state.value === data.length - amountDisplayBooks) {
+  if (state.value === (data?.length || 0) - amountDisplayBooks) {
     state.value = 0
   } else {
     state.value++

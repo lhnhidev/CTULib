@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const Borrowing = new mongoose.Schema({
   maDocGia: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "DocGia",
   },
   maSach: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Sach",
   },
   ngayMuon: String,
@@ -18,6 +18,7 @@ const Borrowing = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  maPhieu: String,
 });
 
 module.exports = mongoose.model("Borrowing", Borrowing, "TheoDoiMuonSach");

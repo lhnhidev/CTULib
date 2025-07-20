@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 
 const User = new mongoose.Schema({
-  maDocGia: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
-  },
+  maDocGia: String,
   email: String,
   password: String,
   avatar: {

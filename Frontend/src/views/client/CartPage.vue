@@ -27,8 +27,8 @@
         <el-table-column
           label="Tên sách"
           prop="tenSach"
-          label-class-name="padding-15 custome-lable"
-          class-name="padding-15 "
+          label-class-name="padding-15 custome-lable my-text-left"
+          class-name="padding-15 my-text-left"
           width="350"
         />
         <el-table-column
@@ -96,7 +96,7 @@
                         <span class="text-md mr-2 text-black"
                           >Nhà xuất bản:</span
                         >
-                        {{ props.row.maNXB }}
+                        {{ props.row.tenNXB }}
                       </p>
                       <p m="t-0 b-2">
                         <span class="text-md mr-2 text-black"
@@ -148,7 +148,6 @@
                                 :size="size"
                                 @change="
                                   (val, row) => {
-                                    console.log(123)
                                     const today = new Date()
                                     today.setHours(0, 0, 0, 0)
 
@@ -297,6 +296,7 @@ watch(products, () => {
     const data = await fetch(`${api}books/${product.maSach}`).then((res) =>
       res.json(),
     )
+    const tenNXB = await fetchPublisherName(data.maNXB)
 
     books.value = [
       ...books.value,
@@ -304,6 +304,7 @@ watch(products, () => {
         soLuong: product.soLuong,
         ngayThemVaoGio: product.ngayThemVaoGio,
         ...data,
+        tenNXB,
       },
     ]
   })
@@ -458,6 +459,12 @@ const handelDeleteOutCart = async (maSach, notify = true) => {
 
   deletedRows.value.push(maSach)
 }
+
+const fetchPublisherName = async (maNXB) => {
+  const res = await fetch(`${api}publishers/${maNXB}`)
+  const data = await res.json()
+  return data.tenNXB
+}
 </script>
 
 <style>
@@ -480,5 +487,13 @@ td {
 
 .tooltip-disabled {
   position: relative;
+}
+
+.cell {
+  text-align: center;
+}
+
+.my-text-left > .cell {
+  text-align: left !important;
 }
 </style>

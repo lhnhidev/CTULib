@@ -16,17 +16,17 @@
           v-for="book in f.length === 0 && books.length === 0
             ? booksData?.slice(first, second)
             : books.slice(first, second)"
-          :key="book._id"
+          :key="book.maSach"
           class="h-[456px] w-60"
         >
           <CardBook
-            :key="book._id"
+            :key="book.maSach"
             :image="book.image"
             :brand="book.brand"
             :title="book.name"
             :vote="book.vote"
             :price="book.price"
-            :id="book._id"
+            :id="book.maSach"
           ></CardBook>
         </div>
       </div>
@@ -75,7 +75,6 @@ const searchBook = (text) => {
     // books.value = booksData.value
     return
   } else {
-    console.log(books.value)
     books.value = (
       f.value.length != 0 && books.value.length != 0
         ? books.value
@@ -83,7 +82,6 @@ const searchBook = (text) => {
     )
       // books.value.length === 0 ? booksData.value : books.value
       .filter((book) => book.name.trim().toLowerCase().includes(text))
-    console.log(books.value)
   }
 }
 

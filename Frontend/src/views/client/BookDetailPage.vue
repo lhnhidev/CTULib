@@ -27,14 +27,14 @@
         :gap="40"
         :style="{ marginTop: '60px' }"
       >
-        <template #default="{ image, brand, title, vote, price, id }">
+        <template #default="{ image, brand, title, vote, price, maSach }">
           <CardBook
             :image="image"
             :brand="brand"
             :title="title"
             :vote="vote"
             :price="price"
-            :id="id"
+            :id="maSach"
           />
         </template>
       </Slider>
