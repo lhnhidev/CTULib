@@ -122,7 +122,7 @@ const handleSubmitFormBorrowing = async (agree) => {
               body: JSON.stringify({ trangThai: "Đang mượn" }),
             })
             st.value = renderStyle("#409eff", "rgb(235.9,245.3,255)")
-            label.value = "Đang mượn"
+            label.value = "Đã xác nhận"
           } else {
             await fetch(`${api}borrowing/${maPhieu}`, {
               method: "PATCH",

@@ -1,6 +1,8 @@
 <template>
   <div class="p-4 pb-0">
-    <div class="overflow-hidden rounded-lg bg-white shadow">
+    <div
+      class="flex h-[595px] flex-col overflow-hidden rounded-lg bg-white shadow"
+    >
       <div class="flex items-center justify-between border-b p-4">
         <h3 class="text-lg font-bold text-[var(--primary-color)]">
           Lịch sử mượn sách
@@ -91,7 +93,7 @@
       </div>
 
       <div
-        class="flex items-center justify-between border-t border-gray-200 px-6 py-3"
+        class="mt-auto flex items-center justify-between border-t border-gray-200 px-6 py-3"
       >
         <div>
           <p class="text-sm text-black">
