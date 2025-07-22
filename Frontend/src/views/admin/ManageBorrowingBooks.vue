@@ -4,9 +4,26 @@
       class="flex h-[595px] flex-col overflow-hidden rounded-lg bg-white shadow"
     >
       <div class="flex items-center justify-between border-b p-4">
-        <h3 class="text-lg font-bold text-[var(--primary-color)]">
-          Lịch sử mượn sách
-        </h3>
+        <el-breadcrumb :separator-icon="ArrowRight">
+          <div class="flex items-center gap-3">
+            <FontAwesomeIcon
+              :icon="faArrowLeft"
+              v-if="isEntry"
+              @click="isEntry = false"
+              class="h-5 w-5 cursor-pointer rounded-full border border-[var(--primary-color)] p-1 text-[var(--primary-color)] transition-all hover:border-[var(--secondary-color)] hover:text-[var(--secondary-color)]"
+            ></FontAwesomeIcon>
+            <el-breadcrumb-item @click="isEntry = false" class="cursor-pointer">
+              <span
+                :class="`text-lg font-bold text-[var(--primary-color)] ${isEntry ? 'transition-all hover:text-[var(--secondary-color)]' : ''}`"
+                >Lịch sử mượn sách</span
+              >
+            </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="isEntry" class="ml-[-12px]">
+              <span class="text-lg text-gray-600">{{ idForm }}</span>
+            </el-breadcrumb-item>
+          </div>
+        </el-breadcrumb>
+
         <div class="flex space-x-2">
           <button
             class="rounded bg-[var(--primary-color)] px-4 py-2 text-sm text-white transition-all hover:bg-[var(--secondary-color)]"
@@ -17,7 +34,7 @@
             ></FontAwesomeIcon>
             Xuất Excel
           </button>
-          <div class="relative">
+          <div class="relative" v-if="!isEntry">
             <input
               v-model="search"
               @keyup.enter="handleSearch"
@@ -33,115 +50,37 @@
         </div>
       </div>
 
-      <div>
-        <table class="w-full">
-          <thead class="bg-[var(--primary-color)]">
-            <tr>
-              <th
-                class="w-[140px] px-6 py-3 text-left text-xs uppercase tracking-wider text-white"
-              >
-                Mã phiếu
-              </th>
-              <th
-                class="w-[190px] px-6 py-3 text-left text-xs uppercase tracking-wider text-white"
-              >
-                Người mượn
-              </th>
-              <th
-                class="min-w-[220px] max-w-[315px] px-6 py-3 text-center text-xs uppercase tracking-wider text-white"
-              >
-                Sách
-              </th>
-              <th
-                class="w-[130px] px-6 py-3 text-left text-xs uppercase tracking-wider text-white"
-              >
-                Ngày mượn
-              </th>
-              <th
-                class="w-[130px] px-6 py-3 text-left text-xs uppercase tracking-wider text-white"
-              >
-                Ngày trả
-              </th>
-              <th
-                class="w-[130px] px-6 py-3 text-left text-xs uppercase tracking-wider text-white"
-              >
-                Trạng thái
-              </th>
-              <th
-                class="w-[170px] px-6 py-3 text-center text-xs uppercase tracking-wider text-white"
-              >
-                Tùy chọn
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200 bg-white">
-            <TableRowAdmin
-              v-for="item in history"
-              :key="item._id"
-              :ghiChu="item.ghiChu"
-              :maDocGia="item.maDocGia"
-              :maSach="item.maSach"
-              :ngayDangKyMuon="item.ngayDangKyMuon"
-              :ngayMuon="item.ngayMuon"
-              :ngayTra="item.ngayTra"
-              :soLuongMuon="item.soLuongMuon"
-              :trangThai="item.trangThai"
-              :maPhieu="item.maPhieu"
-            ></TableRowAdmin>
-          </tbody>
-        </table>
-      </div>
+      <TableBorrowingBooks
+        :searchHistory="searchHistory"
+        @to-grandpa="
+          (signal, id) => {
+            isEntry = signal
+            idForm = id
+          }
+        "
+        v-if="!isEntry"
+      ></TableBorrowingBooks>
 
-      <div
-        class="mt-auto flex items-center justify-between border-t border-gray-200 px-6 py-3"
-      >
-        <div>
-          <p class="text-sm text-black">
-            Hiển thị {{ start }} đến {{ end }} trong
-            {{ historyInit?.length }} kết quả
-          </p>
-        </div>
-        <div>
-          <el-pagination
-            size="small"
-            background
-            layout="prev, pager, next"
-            :page-size="amountOfDisplay"
-            :total="historyInit?.length"
-            @current-change="handlePageChange"
-          />
-        </div>
-      </div>
+      <InfoBorrowingForm v-if="isEntry" :idForm="idForm"></InfoBorrowingForm>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useFetch } from "@/hooks/useFetch"
-import TableRowAdmin from "@components/TableRowAdmin.vue"
-import { faFileExport, faSearch } from "@fortawesome/free-solid-svg-icons"
+import TableBorrowingBooks from "@components/TableBorrowingBooks/TableBorrowingBooks.vue"
+import {
+  faArrowLeft,
+  faFileExport,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+import { ArrowRight } from "@element-plus/icons-vue"
 import { ref } from "vue"
+import InfoBorrowingForm from "@components/TableBorrowingBooks/InfoBorrowingForm.vue"
 
-const amountOfDisplay = 6
-const start = ref(1)
-const end = ref(amountOfDisplay)
 const search = ref("")
-
+const searchHistory = ref([])
 const api = import.meta.env.VITE_HOST
-const { data: historyInit } = useFetch(`${api}borrowing`)
-const { data: history } = useFetch(
-  `${api}borrowing/page?start=${start.value}&end=${end.value}`,
-)
-
-const handlePageChange = async (page) => {
-  start.value = (page - 1) * amountOfDisplay + 1
-  end.value = start.value + amountOfDisplay - 1
-  if (end.value > historyInit.value.length) end.value = historyInit.value.length
-  history.value = await fetch(
-    `${api}borrowing/page?start=${start.value}&end=${end.value}`,
-  ).then((res) => res.json())
-}
 
 const handleSearch = async () => {
   if (search.value === "") return
@@ -150,6 +89,9 @@ const handleSearch = async () => {
   )
   search.value = ""
   if (form === null) return
-  history.value = [form]
+  searchHistory.value = [form]
 }
+
+const idForm = ref("")
+const isEntry = ref(false)
 </script>

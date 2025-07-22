@@ -33,7 +33,10 @@
     </td>
     <td class="whitespace-nowrap px-6 py-4 text-sm font-medium">
       <div class="flex items-center justify-center gap-4 text-lg">
-        <button class="text-blue-600 transition-all hover:text-blue-900">
+        <button
+          class="text-blue-600 transition-all hover:text-blue-900"
+          @click="emit('toParent', true)"
+        >
           <FontAwesomeIcon :icon="faInfoCircle" title="Xem chi tiết" />
         </button>
         <button
@@ -197,4 +200,6 @@ const renderStyle = (text, bg) => {
     backgroundColor: bg,
   }
 }
+
+const emit = defineEmits(["toParent"])
 </script>

@@ -10,7 +10,7 @@
   </div>
   <div>
     <h2 class="my-3 text-3xl text-[var(--primary-color)]">
-      {{ book.name }}
+      {{ book.maSach + " - " + book.name }}
     </h2>
     <p
       v-html="book.desc"

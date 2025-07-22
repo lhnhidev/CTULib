@@ -1,5 +1,4 @@
 <template>
-  <!-- Vote -->
   <div class="text-center text-xs" :style="style">
     <span v-for="i in vote" :key="i">
       <FontAwesomeIcon :icon="faStar" class="text-yellow-400" />
@@ -15,8 +14,10 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 
-defineProps({
+const { vote, style } = defineProps({
   vote: Number,
   style: Object,
 })
+
+console.log(vote, style)
 </script>
