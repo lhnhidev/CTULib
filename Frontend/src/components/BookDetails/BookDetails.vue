@@ -1,8 +1,16 @@
 <template>
-  <BookTitleAndDescription :book="book"></BookTitleAndDescription>
-  <div class="space-y-2">
-    <BookInfoDetail :book="book"></BookInfoDetail>
-    <BookAction :book="book"></BookAction>
+  <div>
+    <BookTitleAndDescription
+      :book="book"
+      :donGiaInlineName="donGiaInlineName"
+    ></BookTitleAndDescription>
+    <div class="space-y-2">
+      <BookInfoDetail
+        :book="book"
+        :theLoaiInline="theLoaiInline"
+      ></BookInfoDetail>
+      <BookAction :book="book" v-if="showBookAction"></BookAction>
+    </div>
   </div>
 </template>
 
@@ -13,5 +21,8 @@ import BookTitleAndDescription from "./BookTitleAndDescription.vue"
 
 const { book } = defineProps({
   book: Object,
+  showBookAction: Boolean,
+  theLoaiInline: Boolean,
+  donGiaInlineName: Boolean,
 })
 </script>

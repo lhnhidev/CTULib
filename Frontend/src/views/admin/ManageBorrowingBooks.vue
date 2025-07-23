@@ -84,6 +84,7 @@ const api = import.meta.env.VITE_HOST
 
 const handleSearch = async () => {
   if (search.value === "") return
+  search.value = search.value.toUpperCase()
   const form = await fetch(`${api}borrowing/form/${search.value}`).then((res) =>
     res.json(),
   )

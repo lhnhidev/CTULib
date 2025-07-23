@@ -1,6 +1,6 @@
 <template>
   <div class="pt-2">
-    <p class="text-3xl font-bold">{{ formatCurrency(book.price) }}</p>
+    <p class="text-3xl font-bold">{{ formatCurrency(book?.price) }}</p>
     <p class="mt-3 text-sm text-[var(--primary-color)]">
       <FontAwesomeIcon
         :icon="faTruckFast"
@@ -93,7 +93,7 @@ const addToCart = async () => {
       maDocGia,
       maSach,
       soLuong: count.value,
-      coSan: book.soQuyen,
+      coSan: book?.soQuyen,
     }),
   }).then((res) => res.json())
 

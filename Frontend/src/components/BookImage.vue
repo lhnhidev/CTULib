@@ -1,7 +1,9 @@
 <template>
-  <div class="animate__animated animate__fadeIn flex gap-5">
+  <div
+    :class="`animate__animated animate__fadeIn flex ${flexCol ? 'flex-col-reverse justify-center' : ''} gap-5`"
+  >
     <div
-      class="flex h-[550px] w-32 flex-col gap-4 overflow-y-auto pl-1 [direction:rtl]"
+      :class="`flex ${flexCol ? 'flex-row' : 'h-[550px] w-32 flex-col [direction:rtl]'} gap-4 overflow-y-auto pl-1`"
     >
       <img
         v-for="(img, index) in image"
@@ -10,6 +12,7 @@
         :src="img"
         :key="index"
         @click="() => handleChangeImage(index)"
+        :style="styleLitileImage"
       />
     </div>
 
@@ -20,11 +23,12 @@
         @mouseenter="showZoom = true"
         @mouseleave="showZoom = false"
         @mousemove="handleMouseMove"
+        :style="styleMainImage"
       >
         <img :src="currentImg" class="w-full object-cover" />
         <div
           v-if="showZoom"
-          class="animate__animated animate__fadeIn absolute right-[-304px] top-0 z-10 h-[300px] w-[300px] border-2 border-[var(--secondary-color)] bg-cover bg-no-repeat"
+          class="animate__animated animate__fadeIn absolute right-[-304px] top-0 z-20 h-[300px] w-[300px] border-2 border-[var(--secondary-color)] bg-cover bg-no-repeat"
           :style="zoomStyle"
         ></div>
       </div>
@@ -37,6 +41,9 @@ import { ref, watch } from "vue"
 
 const { image } = defineProps({
   image: Array,
+  styleLitileImage: Object,
+  styleMainImage: Object,
+  flexCol: Boolean,
 })
 
 const currentImg = ref(image[0])
@@ -70,6 +77,7 @@ const handleMouseMove = (e) => {
     backgroundImage: `url('${currentImg.value}')`,
     backgroundSize: "250%",
     backgroundPosition: `${percentX}% ${percentY}%`,
+    zIndex: "100",
   }
 }
 </script>

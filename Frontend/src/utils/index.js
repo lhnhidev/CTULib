@@ -2,6 +2,7 @@ import { ElNotification } from "element-plus"
 import axios from "axios"
 
 export const formatCurrency = (number, currency = "USD") => {
+  if (!number) return
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency,

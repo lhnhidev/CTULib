@@ -10,10 +10,15 @@
   ></BreadcrumbComponent>
   <div :key="keyValue">
     <div v-if="book" class="flex justify-between gap-16 px-20 py-10">
-      <BookImage :image="book.image"></BookImage>
+      <BookImage :image="book.image" :flexCol="false"></BookImage>
 
       <div>
-        <BookDetails :book="book"></BookDetails>
+        <BookDetails
+          :book="book"
+          :showBookAction="true"
+          :theLoaiInline="false"
+          :donGiaInlineName="false"
+        ></BookDetails>
       </div>
     </div>
 
@@ -67,6 +72,7 @@ watch(
     id.value = route.params.id
     const data = await fetch(url.value)
     book.value = await data.json()
+    console.log(book.value)
   },
 )
 </script>
