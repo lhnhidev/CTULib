@@ -3,13 +3,17 @@
     <div class="group relative aspect-[814/1000]">
       <router-link :to="`/books/${id}`">
         <img
-          class="absolute z-20 h-full w-full cursor-pointer transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+          class="absolute z-20 aspect-[4/5] w-full cursor-pointer object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
           :src="image[0]"
           :alt="title"
           @mouseover="(e) => e.target.classList.add('opacity-0')"
           @mouseleave="(e) => e.target.classList.remove('opacity-0')"
         />
-        <img class="absolute" :src="image[1]" :alt="title" />
+        <img
+          class="absolute aspect-[4/5] object-cover"
+          :src="image[1]"
+          :alt="title"
+        />
       </router-link>
       <div
         class="absolute bottom-2 right-2 z-30 rounded bg-white px-2 py-1 opacity-0 transition-all duration-300 hover:cursor-pointer hover:text-[var(--secondary-color)] group-hover:opacity-100"

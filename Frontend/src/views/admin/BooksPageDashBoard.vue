@@ -21,13 +21,17 @@
                 >Quản lý sách</span
               >
             </el-breadcrumb-item>
-            <el-breadcrumb-item v-if="isEntry !== 'home'" class="ml-[-12px]">
+            <el-breadcrumb-item v-if="isEntry === 'info'" class="ml-[-12px]">
               <span class="text-lg text-gray-600">Thông tin {{ idBook }}</span>
+            </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="isEntry === 'add'" class="ml-[-12px]">
+              <span class="text-lg text-gray-600">Thêm sách</span>
             </el-breadcrumb-item>
           </div>
         </el-breadcrumb>
         <div class="flex space-x-2">
           <button
+            @click="isEntry = 'add'"
             class="rounded bg-[var(--primary-color)] px-4 py-2 text-sm text-white transition-all hover:bg-[var(--secondary-color)]"
           >
             <FontAwesomeIcon :icon="faPlus" class="mr-1"></FontAwesomeIcon>
@@ -60,6 +64,8 @@
         :book="bookInfo"
         class="mt-3"
       ></InfoBooks>
+
+      <AddBook v-if="isEntry === 'add'"></AddBook>
     </div>
   </div>
 </template>
@@ -75,6 +81,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { ArrowRight } from "@element-plus/icons-vue"
 import { ref, watch } from "vue"
 import InfoBooks from "@components/TableBooks/InfoBooks.vue"
+import AddBook from "@components/TableBooks/AddBook.vue"
 
 const search = ref("")
 const api = import.meta.env.VITE_HOST

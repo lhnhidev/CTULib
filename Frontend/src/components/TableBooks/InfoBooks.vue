@@ -8,7 +8,7 @@
     ></BookImage>
     <BookDetails
       :book="book"
-      class="mt-3"
+      class="mt-3 flex-1"
       :showBookAction="false"
       :theLoaiInline="false"
       :donGiaInlineName="true"
