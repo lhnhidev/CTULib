@@ -53,7 +53,7 @@ class BooksController {
     res.json({ message: "Thành công" });
   }
 
-  async removeBook(req, res) {
+  async removeImageBook(req, res) {
     cloudinary.config({
       // eslint-disable-next-line no-undef
       cloud_name: process.env.VITE_CLOUD_NAME,
@@ -65,7 +65,9 @@ class BooksController {
 
     const { public_id } = req.body;
     try {
-      const result = await cloudinary.uploader.destroy(public_id);
+      const result = await cloudinary.uploader.destroy(public_id, {
+        invalidate: true,
+      });
       res.json({ message: "Xóa thành công", result });
     } catch (err) {
       res.status(500).json({ message: "Xóa thất bại", error: err.message });

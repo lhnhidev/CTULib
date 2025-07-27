@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3 flex gap-24 overflow-auto px-12 py-1">
     <BookImage
-      :image="bookUpload.image.map((item) => item.url) || []"
+      :image="bookUpload?.image.map((item) => item.url) || []"
       :styleLitileImage="{ width: '80px' }"
       :styleMainImage="{ width: '280px' }"
       :flexCol="true"
@@ -214,7 +214,13 @@ import { useFetch } from "@/hooks/useFetch"
 import BookImage from "@components/BookImage.vue"
 import { notifyMessage } from "@utils/index"
 import { ElMessage, ElMessageBox } from "element-plus"
-import { reactive } from "vue"
+import { reactive, watch } from "vue"
+
+const { fill, book, isRender } = defineProps({
+  fill: Boolean,
+  book: Object,
+  isRender: Number,
+})
 
 const defaultBookUpload = {
   image: [
@@ -235,7 +241,37 @@ const defaultBookUpload = {
   maNXB: "",
 }
 
+console.log(isRender)
+
 const bookUpload = reactive({ ...defaultBookUpload })
+
+watch([() => book, () => isRender], () => {
+  console.log(book)
+  if (fill) {
+    Object.assign(bookUpload, book)
+    bookUpload.namXuatBan = new Date(Number(bookUpload.namXuatBan), 0, 1)
+    bookUpload.idFeatures = bookUpload.idFeatures.filter((feature) =>
+      feature.includes("theloai"),
+    )
+    bookUpload.image = bookUpload.image.map((image) => {
+      const start =
+        typeof image === "string"
+          ? image.lastIndexOf("/") + 1
+          : image.url.lastIndexOf("/") + 1
+      const end =
+        typeof image === "string"
+          ? image.lastIndexOf(".")
+          : image.url.lastIndexOf(".")
+      return {
+        url: `${image}`,
+        public_id:
+          typeof image === "string"
+            ? image.slice(start, end)
+            : image.url.slice(start, end),
+      }
+    })
+  }
+})
 
 const lang = [
   {
@@ -263,10 +299,11 @@ const lang = [
 const apiImg = import.meta.env.VITE_IMAGE
 
 const handleRemove = async (index) => {
+  // if (fill === true) return
   const img = bookUpload.image[index]
 
-  if (img.public_id) {
-    await fetch(`${api}books/delete`, {
+  if (img.public_id && !fill) {
+    await fetch(`${api}books/deleteImageBook`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

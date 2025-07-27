@@ -34,7 +34,10 @@
         >
           <FontAwesomeIcon :icon="faInfoCircle" title="Xem chi tiết" />
         </button>
-        <button class="text-green-600 transition-all hover:text-green-900">
+        <button
+          class="text-green-600 transition-all hover:text-green-900"
+          @click="() => emit('toParent', 'change', book?.maSach)"
+        >
           <FontAwesomeIcon :icon="faPen" title="Chỉnh sửa" />
         </button>
         <button class="text-red-600 transition-all hover:text-red-900">

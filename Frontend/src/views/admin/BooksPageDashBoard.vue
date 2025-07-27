@@ -27,6 +27,9 @@
             <el-breadcrumb-item v-if="isEntry === 'add'" class="ml-[-12px]">
               <span class="text-lg text-gray-600">Thêm sách</span>
             </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="isEntry === 'change'" class="ml-[-12px]">
+              <span class="text-lg text-gray-600">Chỉnh sửa {{ idBook }}</span>
+            </el-breadcrumb-item>
           </div>
         </el-breadcrumb>
         <div class="flex space-x-2">
@@ -65,7 +68,13 @@
         class="mt-3"
       ></InfoBooks>
 
-      <AddBook v-if="isEntry === 'add'"></AddBook>
+      <HandleBook v-if="isEntry === 'add'" :fill="false"></HandleBook>
+      <HandleBook
+        v-show="isEntry === 'change'"
+        :fill="true"
+        :book="bookInfo"
+        :isRender="isRender"
+      ></HandleBook>
     </div>
   </div>
 </template>
@@ -81,12 +90,13 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { ArrowRight } from "@element-plus/icons-vue"
 import { ref, watch } from "vue"
 import InfoBooks from "@components/TableBooks/InfoBooks.vue"
-import AddBook from "@components/TableBooks/AddBook.vue"
+import HandleBook from "@components/TableBooks/HandleBook.vue"
 
 const search = ref("")
 const api = import.meta.env.VITE_HOST
 const booksSearch = ref([])
 const bookInfo = ref()
+const isRender = ref(1)
 
 const handleSearch = async () => {
   if (search.value === "") return
@@ -110,18 +120,21 @@ const idBook = ref("")
 const handleChangeDirect = (signal, id) => {
   isEntry.value = signal
   idBook.value = id
+  ++isRender.value
 }
 
 watch(idBook, async () => {
+  console.log(123)
   bookInfo.value = await fetch(`${api}books/${idBook.value}`).then((res) =>
     res.json(),
   )
+
   const nxb = await fetch(`${api}publishers/${bookInfo.value.maNXB}`).then(
     (res) => res.json(),
   )
 
   bookInfo.value = { ...bookInfo.value, nxb }
 
-  console.log("bookInfo", bookInfo.value)
+  // console.log("bookInfo", bookInfo.value)
 })
 </script>

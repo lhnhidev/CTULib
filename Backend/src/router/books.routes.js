@@ -6,6 +6,6 @@ route.get("/", booksController.index);
 route.get("/page", booksController.getBookPag);
 route.get("/:id", booksController.showBookDetail);
 route.post("/add", booksController.addBook);
-route.post("/delete", booksController.removeBook);
+route.post("/deleteImageBook", booksController.removeImageBook);
 
 module.exports = route;
