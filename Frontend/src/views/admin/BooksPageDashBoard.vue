@@ -91,6 +91,7 @@ import { ArrowRight } from "@element-plus/icons-vue"
 import { ref, watch } from "vue"
 import InfoBooks from "@components/TableBooks/InfoBooks.vue"
 import HandleBook from "@components/TableBooks/HandleBook.vue"
+import { ElMessage, ElMessageBox } from "element-plus"
 
 const search = ref("")
 const api = import.meta.env.VITE_HOST
@@ -117,14 +118,45 @@ const handleSearch = async () => {
 const isEntry = ref("home")
 const idBook = ref("")
 
-const handleChangeDirect = (signal, id) => {
+const handleChangeDirect = async (signal, id) => {
+  if (signal === "delete") {
+    ElMessageBox.confirm(
+      "Bạn thật sự muốn xóa dữ liệu này? Bạn sẽ không thể khôi phục lại nó sau này!",
+      "Bạn chắc chứ?",
+      {
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancel",
+        type: "warning",
+      },
+    )
+      .then(async () => {
+        await fetch(`${api}books/delete/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        console.log(document.querySelector(`tr#${id}`))
+        document.querySelector(`tr#${id}`).style.display = "none"
+        ElMessage({
+          type: "success",
+          message: "Bạn đã xóa thành công!",
+        })
+      })
+      .catch(() => {
+        ElMessage({
+          type: "info",
+          message: "Thao tác đã được hủy bỏ",
+        })
+      })
+    return
+  }
   isEntry.value = signal
   idBook.value = id
   ++isRender.value
 }
 
 watch(idBook, async () => {
-  console.log(123)
   bookInfo.value = await fetch(`${api}books/${idBook.value}`).then((res) =>
     res.json(),
   )
@@ -134,7 +166,5 @@ watch(idBook, async () => {
   )
 
   bookInfo.value = { ...bookInfo.value, nxb }
-
-  // console.log("bookInfo", bookInfo.value)
 })
 </script>

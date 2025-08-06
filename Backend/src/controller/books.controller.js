@@ -37,20 +37,57 @@ class BooksController {
     let count = 1;
     let exist;
     let maSach;
-    do {
-      maSach = `BK${String(count).padStart(3, "0")}`;
-      exist = await Books.findOne({ maSach });
-      ++count;
-    } while (exist);
+
+    if (!req.body.isChange) {
+      do {
+        maSach = `BK${String(count).padStart(3, "0")}`;
+        exist = await Books.findOne({ maSach });
+        ++count;
+      } while (exist);
+    } else {
+      console.log(req.body.maSach);
+      await Books.deleteOne({ maSach: req.body.maSach });
+      maSach = req.body.maSach;
+    }
+
+    console.log(req.body);
+
+    const { nxb, isChange, ...rest } = req.body;
+    console.log(nxb, isChange);
+
+    console.log({
+      ...rest,
+      namXuatBan,
+      image,
+      maSach,
+    });
+
+    if (req.body.isChange) {
+      await Books.updateOne(
+        { maSach: req.body.maSach },
+        {
+          ...rest,
+          namXuatBan,
+          image,
+          maSach,
+        },
+      );
+    }
 
     await Books.create({
-      ...req.body,
+      ...rest,
       namXuatBan,
       image,
       maSach,
     });
 
     res.json({ message: "Thành công" });
+  }
+
+  async removeBook(req, res) {
+    console.log(req.params.id);
+    await Books.deleteOne({ maSach: req.params.id });
+    res.json({ message: "Xóa thành công" });
   }
 
   async removeImageBook(req, res) {

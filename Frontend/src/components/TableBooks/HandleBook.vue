@@ -302,7 +302,7 @@ const handleRemove = async (index) => {
   // if (fill === true) return
   const img = bookUpload.image[index]
 
-  if (img.public_id && !fill) {
+  if (img.public_id) {
     await fetch(`${api}books/deleteImageBook`, {
       method: "POST",
       headers: {
@@ -311,7 +311,6 @@ const handleRemove = async (index) => {
       },
       body: JSON.stringify({ public_id: img.public_id }),
     }).then((res) => res.json())
-    // console.log(mess)
   }
   bookUpload.image.splice(index, 1)
   if (bookUpload.image.length === 0) {
@@ -379,11 +378,20 @@ const handleSubmit = async () => {
       notifyMessage(
         "error",
         "bottom-right",
-        "Thêm sách thất bại",
+        fill ? "Cập nhật sách thất bại" : "Thêm sách thất bại",
         "Vui lòng nhập đầy đủ thông tin",
       )
       return
     }
+  }
+
+  if (fill === true) {
+    await fetch(`${api}books/delete/${bookUpload.maSach}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
   }
 
   const mess = await fetch(`${api}books/add`, {
@@ -392,7 +400,7 @@ const handleSubmit = async () => {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(bookUpload),
+    body: JSON.stringify({ ...bookUpload, isChange: fill }),
   }).then((res) => res.json())
 
   ElMessageBox.alert(

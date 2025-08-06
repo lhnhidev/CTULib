@@ -84,6 +84,11 @@ const adminRouter = [
         name: "client-history",
         component: () => import("../views/admin/ManageBorrowingBooks.vue"),
       },
+      {
+        path: "publishers",
+        name: "client-publishers",
+        component: () => import("../views/admin/ManagePublishers.vue"),
+      },
     ],
   },
 ]

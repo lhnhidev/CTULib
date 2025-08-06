@@ -58,7 +58,9 @@
           </h3>
         </div>
 
-        <div></div>
+        <div>
+          <TableBorrowingBooks></TableBorrowingBooks>
+        </div>
       </div>
     </div>
   </div>
@@ -66,6 +68,7 @@
 
 <script setup>
 import CardInfoAdmin from "@components/CardInfoAdmin.vue"
+import TableBorrowingBooks from "@components/TableBorrowingBooks/TableBorrowingBooks.vue"
 import {
   faBook,
   faBookOpen,

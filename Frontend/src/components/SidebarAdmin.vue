@@ -48,6 +48,19 @@
           </router-link>
 
           <router-link
+            to="/admin/publishers"
+            :class="[
+              'mb-1 block rounded-lg p-2 px-3 transition-all',
+              route.path === '/admin/publishers'
+                ? 'bg-primary-100 text-primary-700'
+                : 'hover:bg-gray-100',
+            ]"
+          >
+            <FontAwesomeIcon :icon="faBuilding" class="mr-3" />
+            <span>Nhà xuất bản</span>
+          </router-link>
+
+          <router-link
             to="/admin/books"
             :class="[
               'mb-1 block rounded-lg p-2 px-3 transition-all',
@@ -111,6 +124,7 @@
 import { useFetch } from "@/hooks/useFetch"
 import {
   faBook,
+  faBuilding,
   faCog,
   faFileAlt,
   faSignOutAlt,

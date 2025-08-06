@@ -24,8 +24,8 @@
         class="block rounded bg-[var(--primary-color)] px-10 py-1 text-white transition-all hover:bg-[var(--secondary-color)]"
         @click="addToCart"
       >
-        <FontAwesomeIcon :icon="faCartShopping"></FontAwesomeIcon>
-        Thêm vào giỏ hàng
+        <FontAwesomeIcon :icon="faCartShopping" class="mr-2"></FontAwesomeIcon>
+        Thêm vào mượn
       </button>
     </div>
 
