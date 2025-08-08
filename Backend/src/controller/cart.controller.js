@@ -12,7 +12,7 @@ class CartController {
 
     if (onCart === null) {
       await Cart.create({ maDocGia, maSach, soLuong });
-      res.json({ message: "Thêm vào giỏ hàng thành công" });
+      res.json({ message: "Thêm vào yêu cầu mượn thành công" });
       return;
     } else {
       if (soLuong + onCart.soLuong > coSan) {
@@ -22,7 +22,7 @@ class CartController {
         onCart.soLuong += soLuong;
         await onCart.save();
 
-        res.json({ message: "Cập nhật giỏ hàng thành công" });
+        res.json({ message: "Cập nhật yêu cầu thành công" });
         return;
       }
     }

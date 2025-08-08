@@ -110,7 +110,7 @@
             @click="showCartSideBar = true"
             class="cursor-pointer text-2xl hover:text-[var(--primary-color)]"
           >
-            <FontAwesomeIcon :icon="faBagShopping" />
+            <FontAwesomeIcon :icon="faBookmark" />
           </a>
         </div>
       </div>
@@ -122,9 +122,10 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import {
   faMagnifyingGlass,
-  faBagShopping,
+  // faBagShopping,
   faUser,
   faHeart,
+  faBookmark,
 } from "@fortawesome/free-solid-svg-icons"
 import HeaderMenu from "./HeaderMenu.vue"
 import { ref, watch } from "vue"

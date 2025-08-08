@@ -225,7 +225,7 @@ const { fill, book, isRender } = defineProps({
 const defaultBookUpload = {
   image: [
     {
-      url: "https://res.cloudinary.com/dpsj6nk7y/image/upload/v1753386269/no-image_qez2fh.svg",
+      url: "https://placehold.co/280x350?text=No+Image",
       public_id: "",
     },
   ],

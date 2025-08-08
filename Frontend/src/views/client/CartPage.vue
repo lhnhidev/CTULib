@@ -1,9 +1,9 @@
 <template>
   <BreadcrumbComponent
-    :title="`Giỏ hàng`"
+    :title="`Yêu cầu mượn`"
     :breadcrumb="[
       { label: 'Trang chủ', path: '/' },
-      { label: 'Giỏ hàng', path: '' },
+      { label: 'Yêu cầu mượn', path: '' },
     ]"
   ></BreadcrumbComponent>
   <div class="flex justify-between gap-10 px-20 py-10">
@@ -110,7 +110,7 @@
                           @click="() => handelDeleteOutCart(props.row.maSach)"
                           class="mx-auto mt-3 block rounded bg-red-500 px-3 py-1 text-white transition-all hover:bg-red-600"
                         >
-                          Xóa khỏi giỏ hàng
+                          Xóa khỏi Yêu cầu mượn
                         </button>
                       </div>
                     </div>
@@ -453,7 +453,7 @@ const handelDeleteOutCart = async (maSach, notify = true) => {
       "success",
       "bottom-right",
       "Xóa khỏi giở hàng thành công",
-      "Bạn đã thực hiện xóa sản phẩm khỏi giỏ hàng",
+      "Bạn đã thực hiện xóa sản phẩm khỏi Yêu cầu mượn",
     )
   }
 

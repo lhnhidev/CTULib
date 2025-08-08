@@ -70,8 +70,8 @@ const handelDeleteOutCart = async () => {
     notifyMessage(
       "success",
       "bottom-left",
-      "Xóa khỏi giỏ hàng thành công",
-      "Bạn đã thực hiện xóa sản phẩm khỏi giỏ hàng",
+      "Xóa khỏi yêu cầu thành công",
+      "Bạn đã thực hiện xóa sản phẩm khỏi ",
     )
   }
 }

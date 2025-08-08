@@ -11,7 +11,7 @@
           :icon="faXmark"
           v-if="
             img !=
-              'https://res.cloudinary.com/dpsj6nk7y/image/upload/v1753386269/no-image_qez2fh.svg' &&
+              'hhttps://placehold.co/280x350?text=No+Image' &&
             allowRemoveImage
           "
           class="absolute right-1 top-1 z-10 h-2 w-2 cursor-pointer rounded-full bg-red-500 p-1 text-white transition-all hover:bg-white hover:text-red-500"

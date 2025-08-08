@@ -17,10 +17,10 @@
       </router-link>
       <div
         class="absolute bottom-2 right-2 z-30 rounded bg-white px-2 py-1 opacity-0 transition-all duration-300 hover:cursor-pointer hover:text-[var(--secondary-color)] group-hover:opacity-100"
-        title="Thêm vào giỏ hàng"
+        title="Thêm vào yêu cầu mượn"
         @click="handleAddBookToCart"
       >
-        <FontAwesomeIcon :icon="faCartShopping" />
+        <!-- <FontAwesomeIcon :icon="faCartShopping" /> -->
       </div>
     </div>
 
@@ -50,8 +50,8 @@
 <script setup>
 import { formatCurrency, notifyMessage } from "@/utils"
 import RatingStars from "./RatingStars.vue"
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons"
+// import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
+// import { faCartShopping } from "@fortawesome/free-solid-svg-icons"
 
 const { image, brand, title, vote, price, id } = defineProps({
   image: Array,
@@ -70,7 +70,7 @@ const handleAddBookToCart = async () => {
       "error",
       "bottom-right",
       "Vui lòng đăng nhập tài khoản",
-      "Để thực hiện thêm vào giỏ hàng cần đăng nhập trước đó",
+      "Để thực hiện thêm vào yêu cầu mượn cần đăng nhập trước đó",
     )
     return
   }
@@ -107,7 +107,7 @@ const handleAddBookToCart = async () => {
       "error",
       "bottom-right",
       "Vui lòng đăng nhập tài khoản",
-      "Để thực hiện thêm vào giỏ hàng, bạn phải đăng nhập tài khoảng độc giả",
+      "Để thực hiện thêm vào yêu cầu, bạn phải đăng nhập tài khoản độc giả",
     )
   } else {
     if (message === "Quá số lượng") {
@@ -121,8 +121,8 @@ const handleAddBookToCart = async () => {
       notifyMessage(
         "success",
         "bottom-right",
-        "Thêm vào giỏ hàng thành công",
-        "Vui lòng truy cập giỏ hàng để xem chi tiết",
+        "Thêm vào yêu cầu thành công",
+        "Vui lòng truy cập yêu cầu mượn để xem chi tiết",
       )
     }
   }

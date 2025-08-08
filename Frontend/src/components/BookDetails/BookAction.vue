@@ -1,13 +1,13 @@
 <template>
   <div class="pt-2">
     <p class="text-3xl font-bold">{{ formatCurrency(book?.price) }}</p>
-    <p class="mt-3 text-sm text-[var(--primary-color)]">
+    <!-- <p class="mt-3 text-sm text-[var(--primary-color)]">
       <FontAwesomeIcon
         :icon="faTruckFast"
         class="mr-2 text-lg"
       ></FontAwesomeIcon>
       Giao hàng cấp tốc trong khuôn viên trường chỉ 30 phút!
-    </p>
+    </p> -->
     <div class="mt-4 flex gap-5">
       <el-input-number
         v-model="count"
@@ -24,7 +24,7 @@
         class="block rounded bg-[var(--primary-color)] px-10 py-1 text-white transition-all hover:bg-[var(--secondary-color)]"
         @click="addToCart"
       >
-        <FontAwesomeIcon :icon="faCartShopping" class="mr-2"></FontAwesomeIcon>
+        <!-- <FontAwesomeIcon :icon="faCartShopping" class="mr-2"></FontAwesomeIcon> -->
         Thêm vào mượn
       </button>
     </div>
@@ -48,9 +48,9 @@
 
 <script setup>
 import {
-  faCartShopping,
+  // faCartShopping,
   faHeart,
-  faTruckFast,
+  // faTruckFast,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { ref } from "vue"
@@ -74,7 +74,7 @@ const addToCart = async () => {
       "error",
       "bottom-right",
       "Vui lòng đăng nhập tài khoản",
-      "Để thực hiện thêm vào giỏ hàng cần đăng nhập trước đó",
+      "Để thực hiện thêm vào yêu cầu cần đăng nhập trước đó",
     )
     return
   }
@@ -108,7 +108,7 @@ const addToCart = async () => {
       "error",
       "bottom-right",
       "Vui lòng đăng nhập tài khoản",
-      "Để thực hiện thêm vào giỏ hàng, bạn phải đăng nhập tài khoảng độc giả",
+      "Để thực hiện thêm vào yêu cầu, bạn phải đăng nhập tài khoảng độc giả",
     )
   } else {
     if (message === "Quá số lượng") {
@@ -122,8 +122,8 @@ const addToCart = async () => {
       notifyMessage(
         "success",
         "bottom-right",
-        "Thêm vào giỏ hàng thành công",
-        "Vui lòng truy cập giỏ hàng để xem chi tiết",
+        "Thêm vào yêu cầu thành công",
+        "Vui lòng truy cập yêu cầu mượn để xem chi tiết",
       )
     }
   }

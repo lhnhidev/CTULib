@@ -19,7 +19,7 @@
             class="flex items-center justify-between border border-gray-200 px-5 py-3"
           >
             <h2 class="text-xl font-bold uppercase text-[var(--primary-color)]">
-              Giỏ hàng ({{ products?.length }})
+              Yêu cầu mượn ({{ products?.length }})
             </h2>
             <div
               class="cursor-pointer px-1 text-2xl transition-all hover:text-red-500"
@@ -45,7 +45,7 @@
               </div>
               <div>
                 <h3 class="mb-2 mt-4 px-6 text-center text-xl">
-                  Giỏ hàng của bạn trống.
+                  Yêu cầu mượn của bạn trống.
                 </h3>
                 <p class="px-10 text-center text-sm text-gray-500">
                   Bạn có thể tra cứu tất cả sách hiện có và thực hiện mượn sách
